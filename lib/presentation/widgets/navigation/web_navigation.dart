@@ -1,5 +1,5 @@
+import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
 import 'package:e_rose/router.dart';
-import 'package:e_rose/views/widgets/navigation/navigation_base.dart';
 import 'package:flutter/material.dart';
 
 class WebNavigation extends StatefulWidget {
@@ -19,12 +19,17 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 200,
-        leading: const Center(
-          child: Text(
-            "E-Rose",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+        leading: InkWell(
+          onTap: () => onItemTapped(context,
+              routes.indexOf(routes.firstWhere((route) => route.path == "/"))),
+          mouseCursor: SystemMouseCursors.click,
+          child: const Center(
+            child: Text(
+              "E-Rose",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
-import 'package:e_rose/views/home/web/home_view.dart';
-import 'package:e_rose/views/widgets/navigation/navigation.dart';
+import 'package:e_rose/presentation/views/heroes/web/hero_list_view.dart';
+import 'package:e_rose/presentation/views/home/web/home_view.dart';
+import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -71,6 +72,14 @@ final List<MyRoute> routes = [
       // mobileChild: const HomeViewMobile(),
       // desktopChild: const HomeViewDesktop(),
       webChild: const HomeViewWeb(),
+    ),
+  ),
+  MyRoute(
+    name: "HeroList",
+    path: "/heroes",
+    icon: Icons.people_alt,
+    child: _child(
+      webChild: const HeroListViewWeb(),
     ),
   ),
 ];

@@ -1,3 +1,4 @@
+import 'package:e_rose/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,11 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'SpoopyLife',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
