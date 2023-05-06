@@ -65,7 +65,7 @@ class MyRoute {
 
 final List<MyRoute> routes = [
   MyRoute(
-    name: "Home",
+    name: "Accueil",
     path: "/",
     icon: Icons.home,
     child: _child(
@@ -75,7 +75,7 @@ final List<MyRoute> routes = [
     ),
   ),
   MyRoute(
-    name: "HeroList",
+    name: "Heros",
     path: "/heroes",
     icon: Icons.people_alt,
     child: _child(
