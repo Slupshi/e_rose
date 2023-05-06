@@ -1,3 +1,5 @@
+import 'package:e_rose/assets/colors.dart';
+import 'package:e_rose/main.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
 import 'package:e_rose/router.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: black,
         leadingWidth: 200,
         leading: InkWell(
           onTap: () => onItemTapped(context,
@@ -25,7 +28,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
           mouseCursor: SystemMouseCursors.click,
           child: const Center(
             child: Text(
-              "E-Rose",
+              appTitle,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -45,26 +48,49 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
             ),
           ),
         ],
-        title: Row(
+        title: SizedBox(
+          height: 50,
+          child: Row(
+            children: [
+              for (var route in routes)
+                //
+                _navButton(route),
+            ],
+          ),
+        ),
+      ),
+      body: Material(
+        color: nightBlue,
+        child: widget.child,
+      ),
+    );
+  }
+
+  Widget _navButton(MyRoute route) {
+    return InkWell(
+      hoverColor: lighterBlack,
+      mouseCursor: SystemMouseCursors.click,
+      onTap: () => onItemTapped(context, routes.indexOf(route)),
+      child: SizedBox(
+        width: 200,
+        child: Column(
           children: [
-            for (var route in routes) ...[
-              InkWell(
-                mouseCursor: SystemMouseCursors.click,
-                onTap: () => onItemTapped(context, routes.indexOf(route)),
-                child: Container(
-                  height: 50,
-                  width: 200,
-                  color: isCurrentRoute(context, route)
-                      ? Colors.red
-                      : Colors.transparent,
-                  child: Center(child: Text(route.name)),
+            Expanded(
+              child: Center(
+                child: Text(route.name),
+              ),
+            ),
+            if (isCurrentRoute(context, route))
+              const SizedBox(
+                height: 5,
+                width: 200,
+                child: Material(
+                  color: red,
                 ),
               ),
-            ],
           ],
         ),
       ),
-      body: widget.child,
     );
   }
 }
