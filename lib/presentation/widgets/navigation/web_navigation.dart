@@ -51,6 +51,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
         title: SizedBox(
           height: 50,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (var route in routes)
                 //
@@ -67,6 +68,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
   }
 
   Widget _navButton(MyRoute route) {
+    if (route.path == "/") return const SizedBox();
     return InkWell(
       hoverColor: lighterBlack,
       mouseCursor: SystemMouseCursors.click,
@@ -76,8 +78,18 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
         child: Column(
           children: [
             Expanded(
-              child: Center(
-                child: Text(route.name),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    route.icon,
+                    size: route.iconSize,
+                    color: white,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(route.name),
+                ],
               ),
             ),
             if (isCurrentRoute(context, route))

@@ -1,4 +1,5 @@
-import 'package:e_rose/presentation/views/heroes/web/hero_list_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
+import 'package:e_rose/presentation/views/heroes/web/heroes_list_view.dart';
 import 'package:e_rose/presentation/views/home/web/home_view.dart';
 import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
 import 'package:flutter/foundation.dart';
@@ -79,7 +80,15 @@ final List<MyRoute> routes = [
     path: "/heroes",
     icon: Icons.people_alt,
     child: _child(
-      webChild: const HeroListViewWeb(),
+      webChild: const HeroesListViewWeb(),
+    ),
+  ),
+  MyRoute(
+    name: "Incidents",
+    path: "/accidents",
+    icon: Icons.warning_amber_rounded,
+    child: _child(
+      webChild: const AccidentsListViewWeb(),
     ),
   ),
 ];

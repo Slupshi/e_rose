@@ -136,6 +136,12 @@ class HomeViewWeb extends StatelessWidget {
               ),
             ),
           ),
+          Divider(
+            color: white,
+            indent: MediaQuery.of(context).size.width / 10,
+            endIndent: MediaQuery.of(context).size.width / 10,
+            thickness: 3,
+          ),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(20),
