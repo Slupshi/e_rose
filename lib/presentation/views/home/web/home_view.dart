@@ -103,8 +103,8 @@ class HomeViewWeb extends StatelessWidget {
                             Positioned(
                               top: constraints.maxHeight / 8,
                               right: constraints.maxWidth / 8,
-                              child: Icon(
-                                Icons.car_crash_outlined,
+                              child: FaIcon(
+                                FontAwesomeIcons.carBurst,
                                 color: white,
                                 size: constraints.maxHeight / 4,
                               ),
