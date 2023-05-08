@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HeroListViewWeb extends StatelessWidget {
-  const HeroListViewWeb({super.key});
+class HeroesListViewWeb extends StatelessWidget {
+  const HeroesListViewWeb({super.key});
 
   @override
   Widget build(BuildContext context) {
