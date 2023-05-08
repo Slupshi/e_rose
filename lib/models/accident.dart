@@ -9,9 +9,9 @@ class Accident with _$Accident {
     required int id,
     required String name,
     required String description,
-    required int iconCode,
-    required String? iconFont,
-    required String? iconPackage,
+    required String iconCode,
+    required String? iconFontFamily,
+    required String? iconFontPackage,
   }) = _Accident;
 
   factory Accident.fromJson(Map<String, Object?> json) =>

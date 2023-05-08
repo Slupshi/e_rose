@@ -5,5 +5,5 @@ part 'env.g.dart';
 @Envied()
 abstract class Env {
   @EnviedField(varName: 'API_URL')
-  static const key = _Env.key;
+  static const baseApiUrl = _Env.baseApiUrl;
 }
