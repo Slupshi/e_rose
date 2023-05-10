@@ -129,25 +129,21 @@ class HeroesListViewWeb extends ConsumerWidget {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    _richTextHeroCard(
-                                                      context,
-                                                      "Prénom",
-                                                      hero.firstName,
+                                                    _RichtTextHeroCard(
+                                                      field: "Prénom",
+                                                      value: hero.firstName,
                                                     ),
-                                                    _richTextHeroCard(
-                                                      context,
-                                                      "Nom",
-                                                      hero.lastName,
+                                                    _RichtTextHeroCard(
+                                                      field: "Nom",
+                                                      value: hero.lastName,
                                                     ),
-                                                    _richTextHeroCard(
-                                                      context,
-                                                      "Mail",
-                                                      hero.email,
+                                                    _RichtTextHeroCard(
+                                                      field: "Mail",
+                                                      value: hero.email,
                                                     ),
-                                                    _richTextHeroCard(
-                                                      context,
-                                                      "Téléphone",
-                                                      hero.phoneNumber,
+                                                    _RichtTextHeroCard(
+                                                      field: "Téléphone",
+                                                      value: hero.phoneNumber,
                                                     ),
                                                   ],
                                                 ),
@@ -185,8 +181,19 @@ class HeroesListViewWeb extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _richTextHeroCard(BuildContext context, String field, String? value) {
+class _RichtTextHeroCard extends StatelessWidget {
+  final String field;
+  final String? value;
+
+  const _RichtTextHeroCard({
+    required this.field,
+    this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return RichText(
       textScaleFactor: textScaleFactor(context),
       text: TextSpan(
