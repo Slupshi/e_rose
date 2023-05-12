@@ -1,4 +1,4 @@
-import 'package:e_rose/assets/colors.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 
 class PageTemplateWidget extends StatelessWidget {
@@ -20,7 +20,7 @@ class PageTemplateWidget extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.transparent),
             borderRadius: BorderRadius.circular(50),
-            color: darkerNightBlue,
+            color: CustomColors.darkerNightBlue,
           ),
           child: Material(
             elevation: 20,

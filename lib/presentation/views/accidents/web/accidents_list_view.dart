@@ -1,6 +1,6 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/accident_controller.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,14 +38,15 @@ class AccidentsListViewWeb extends ConsumerWidget {
                             children: [
                               for (var accident in accidentState.accidents) ...[
                                 Material(
-                                  color:
-                                      accident == accidentState.selectedAccident
-                                          ? lighGrey.withOpacity(0.1)
-                                          : Colors.transparent,
+                                  color: accident ==
+                                          accidentState.selectedAccident
+                                      ? CustomColors.lighGrey.withOpacity(0.1)
+                                      : Colors.transparent,
                                   child: InkWell(
                                     onTap: () =>
                                         accidentController.select(accident),
-                                    hoverColor: lighGrey.withOpacity(0.1),
+                                    hoverColor:
+                                        CustomColors.lighGrey.withOpacity(0.1),
                                     child: SizedBox(
                                       height: constraints.maxHeight / 12,
                                       child: Padding(
@@ -70,7 +71,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                                                     fontPackage: accident
                                                         .iconFontPackage,
                                                   ),
-                                                  color: white,
+                                                  color: CustomColors.white,
                                                   size: constraints.maxHeight /
                                                       18,
                                                 ),
@@ -102,7 +103,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                     ),
                   ),
                   const VerticalDivider(
-                    color: white,
+                    color: CustomColors.white,
                     thickness: 3,
                     width: 3,
                   ),

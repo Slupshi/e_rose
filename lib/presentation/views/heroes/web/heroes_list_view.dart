@@ -1,6 +1,6 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/hero_controller.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/heroes/hero_card_info_widget.dart';
 import 'package:e_rose/presentation/widgets/heroes/hero_card_map_widget.dart';
 import 'package:e_rose/presentation/widgets/page_template.dart';
@@ -43,7 +43,7 @@ class HeroesListViewWeb extends ConsumerWidget {
                               for (var hero in heroState.heroes) ...[
                                 Material(
                                   color: hero == heroState.selectedhero
-                                      ? lighGrey.withOpacity(0.1)
+                                      ? CustomColors.lighGrey.withOpacity(0.1)
                                       : Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
@@ -56,7 +56,8 @@ class HeroesListViewWeb extends ConsumerWidget {
                                         5,
                                       );
                                     },
-                                    hoverColor: lighGrey.withOpacity(0.1),
+                                    hoverColor:
+                                        CustomColors.lighGrey.withOpacity(0.1),
                                     child: SizedBox(
                                       height: constraints.maxHeight / 12,
                                       child: Padding(
@@ -72,7 +73,7 @@ class HeroesListViewWeb extends ConsumerWidget {
                                                 TextSpan(
                                                   text: hero.heroName,
                                                   style: const TextStyle(
-                                                    color: white,
+                                                    color: CustomColors.white,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 12,
                                                   ),
@@ -83,7 +84,7 @@ class HeroesListViewWeb extends ConsumerWidget {
                                                   style: const TextStyle(
                                                     fontSize: 8,
                                                     fontStyle: FontStyle.italic,
-                                                    color: grey,
+                                                    color: CustomColors.grey,
                                                   ),
                                                 ),
                                               ],
@@ -102,7 +103,7 @@ class HeroesListViewWeb extends ConsumerWidget {
                     ),
                   ),
                   const VerticalDivider(
-                    color: white,
+                    color: CustomColors.white,
                     thickness: 3,
                     width: 3,
                   ),

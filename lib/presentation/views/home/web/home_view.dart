@@ -1,5 +1,5 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/assets/spacing.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -78,7 +78,7 @@ class HomeViewWeb extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 3,
-                          color: white,
+                          color: CustomColors.white,
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
@@ -90,7 +90,7 @@ class HomeViewWeb extends StatelessWidget {
                               left: constraints.maxWidth / 6,
                               child: Icon(
                                 Icons.tsunami,
-                                color: white,
+                                color: CustomColors.white,
                                 size: constraints.maxHeight / 4,
                               ),
                             ),
@@ -99,7 +99,7 @@ class HomeViewWeb extends StatelessWidget {
                               right: constraints.maxWidth / 7,
                               child: Icon(
                                 Icons.fire_truck_outlined,
-                                color: white,
+                                color: CustomColors.white,
                                 size: constraints.maxHeight / 4,
                               ),
                             ),
@@ -108,7 +108,7 @@ class HomeViewWeb extends StatelessWidget {
                               right: constraints.maxWidth / 8,
                               child: FaIcon(
                                 FontAwesomeIcons.carBurst,
-                                color: white,
+                                color: CustomColors.white,
                                 size: constraints.maxHeight / 4,
                               ),
                             ),
@@ -117,7 +117,7 @@ class HomeViewWeb extends StatelessWidget {
                               left: constraints.maxWidth / 4,
                               child: Icon(
                                 Icons.landslide_outlined,
-                                color: white,
+                                color: CustomColors.white,
                                 size: constraints.maxHeight / 4,
                               ),
                             ),
@@ -126,7 +126,7 @@ class HomeViewWeb extends StatelessWidget {
                               left: constraints.maxWidth / 2,
                               child: FaIcon(
                                 FontAwesomeIcons.truckMedical,
-                                color: white,
+                                color: CustomColors.white,
                                 size: constraints.maxHeight / 5,
                               ),
                             ),
@@ -140,7 +140,7 @@ class HomeViewWeb extends StatelessWidget {
             ),
           ),
           Divider(
-            color: white,
+            color: CustomColors.white,
             indent: MediaQuery.of(context).size.width / 10,
             endIndent: MediaQuery.of(context).size.width / 10,
             thickness: 3,
@@ -157,7 +157,7 @@ class HomeViewWeb extends StatelessWidget {
                       child: LayoutBuilder(
                         builder: (context, constraints) => FaIcon(
                           FontAwesomeIcons.mask,
-                          color: white,
+                          color: CustomColors.white,
                           size: constraints.maxHeight / 2,
                         ),
                       ),

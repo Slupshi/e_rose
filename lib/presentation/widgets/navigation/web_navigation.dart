@@ -1,5 +1,5 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/main.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
 import 'package:e_rose/router.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: black,
+        backgroundColor: CustomColors.black,
         leadingWidth: 200,
         leading: InkWell(
           onTap: () => onItemTapped(context,
@@ -61,7 +61,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
         ),
       ),
       body: Material(
-        color: nightBlue,
+        color: CustomColors.nightBlue,
         child: widget.child,
       ),
     );
@@ -70,7 +70,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
   Widget _navButton(MyRoute route) {
     if (route.path == "/") return const SizedBox();
     return InkWell(
-      hoverColor: lighterBlack,
+      hoverColor: CustomColors.lighterBlack,
       mouseCursor: SystemMouseCursors.click,
       onTap: () => onItemTapped(context, routes.indexOf(route)),
       child: SizedBox(
@@ -85,7 +85,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
                   Icon(
                     route.icon,
                     size: route.iconSize,
-                    color: white,
+                    color: CustomColors.white,
                   ),
                   const SizedBox(width: 5),
                   Text(route.name),
@@ -97,7 +97,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
                 height: 5,
                 width: 200,
                 child: Material(
-                  color: red,
+                  color: CustomColors.red,
                 ),
               ),
           ],
