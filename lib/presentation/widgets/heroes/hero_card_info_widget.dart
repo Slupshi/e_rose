@@ -1,6 +1,6 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 
 class HeroCardInfoWidget extends StatelessWidget {
@@ -40,7 +40,7 @@ class HeroCardInfoWidget extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: white,
+                color: CustomColors.white,
                 width: 5,
               ),
             ),
@@ -53,7 +53,7 @@ class HeroCardInfoWidget extends StatelessWidget {
                   selectedHero.accidents![index].name!,
                   textScaleFactor: textScaleFactor(context),
                   style: const TextStyle(
-                    fontSize: 8,
+                    fontSize: 10,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -85,7 +85,7 @@ class _RichtTextHeroCard extends StatelessWidget {
           textScaleFactor: textScaleFactor(context),
           text: TextSpan(
             style: const TextStyle(
-              color: white,
+              color: CustomColors.white,
               fontSize: 12,
             ),
             children: [
