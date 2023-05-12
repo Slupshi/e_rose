@@ -15,7 +15,10 @@ class HomeViewWeb extends StatelessWidget {
         children: [
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: MediaQuery.of(context).size.width / 10,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -47,9 +50,9 @@ class HomeViewWeb extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Spacer(),
+                            const Spacer(flex: 2),
                             Flexible(
-                              flex: 4,
+                              flex: 5,
                               child: CustomPrimaryButton(
                                 onPressed: () {},
                                 text: "Je le déclare !",
@@ -57,7 +60,7 @@ class HomeViewWeb extends StatelessWidget {
                             ),
                             const Spacer(),
                             Flexible(
-                              flex: 4,
+                              flex: 5,
                               child: CustomPrimaryButton(
                                 onPressed: () {},
                                 text: "Découvrir les incidents",

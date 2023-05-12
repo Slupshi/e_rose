@@ -12,7 +12,7 @@ class CustomPrimaryButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
-    this.backgroundColor = lightOrange,
+    this.backgroundColor = lightBlue,
     this.foregroundColor = white,
     this.borderColor = black,
   });

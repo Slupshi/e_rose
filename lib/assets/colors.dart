@@ -6,6 +6,7 @@ const nightBlue = Color(0xff14213D);
 const darkerNightBlue = Color.fromARGB(255, 14, 24, 46);
 const lightOrange = Color(0xffFCA311);
 const lighGrey = Color(0xffE5E5E5);
+const lightBlue = Color(0xff57c3fa);
 const white = Color(0xffffffff);
 
 const darkRed = Color(0xff660708);
