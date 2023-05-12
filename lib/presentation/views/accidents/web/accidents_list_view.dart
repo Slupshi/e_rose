@@ -1,6 +1,7 @@
-import 'package:e_rose/assets/colors.dart';
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/accident_controller.dart';
+import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,23 +13,17 @@ class AccidentsListViewWeb extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final accidentController = ref.read(accidentControllerProvider.notifier);
     final data = ref.watch(accidentControllerProvider);
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 9,
-          horizontal: MediaQuery.of(context).size.width / 7,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(50),
-            color: darkerNightBlue,
-          ),
-          child: Material(
-            elevation: 20,
-            color: Colors.transparent,
-            child: data.when(
-              data: (accidentState) => Row(
+    return PageTemplateWidget(
+      child: data.when(
+        data: (accidentState) => accidentState.accidents.isEmpty
+            ? Center(
+                child: Text(
+                  "Il n'y a aucun accidents pour l'instant !",
+                  textScaleFactor: textScaleFactor(context),
+                  style: const TextStyle(fontSize: 15),
+                ),
+              )
+            : Row(
                 children: [
                   Flexible(
                     flex: 2,
@@ -43,14 +38,15 @@ class AccidentsListViewWeb extends ConsumerWidget {
                             children: [
                               for (var accident in accidentState.accidents) ...[
                                 Material(
-                                  color:
-                                      accident == accidentState.selectedAccident
-                                          ? lighGrey.withOpacity(0.1)
-                                          : Colors.transparent,
+                                  color: accident ==
+                                          accidentState.selectedAccident
+                                      ? CustomColors.lighGrey.withOpacity(0.1)
+                                      : Colors.transparent,
                                   child: InkWell(
                                     onTap: () =>
                                         accidentController.select(accident),
-                                    hoverColor: lighGrey.withOpacity(0.1),
+                                    hoverColor:
+                                        CustomColors.lighGrey.withOpacity(0.1),
                                     child: SizedBox(
                                       height: constraints.maxHeight / 12,
                                       child: Padding(
@@ -69,13 +65,13 @@ class AccidentsListViewWeb extends ConsumerWidget {
                                                 child: FaIcon(
                                                   IconData(
                                                     int.parse(
-                                                        accident.iconCode),
+                                                        accident.iconCode!),
                                                     fontFamily:
                                                         accident.iconFontFamily,
                                                     fontPackage: accident
                                                         .iconFontPackage,
                                                   ),
-                                                  color: white,
+                                                  color: CustomColors.white,
                                                   size: constraints.maxHeight /
                                                       18,
                                                 ),
@@ -84,7 +80,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                                             Expanded(
                                               flex: 5,
                                               child: Text(
-                                                accident.name,
+                                                accident.name!,
                                                 textScaleFactor:
                                                     textScaleFactor(context),
                                                 style: const TextStyle(
@@ -107,7 +103,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                     ),
                   ),
                   const VerticalDivider(
-                    color: white,
+                    color: CustomColors.white,
                     thickness: 3,
                     width: 3,
                   ),
@@ -120,7 +116,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                         ),
                         child: Center(
                           child: Text(
-                            accidentState.selectedAccident.description,
+                            accidentState.selectedAccident.description!,
                             textScaleFactor: textScaleFactor(context),
                             maxLines: 10,
                             textAlign: TextAlign.center,
@@ -132,11 +128,8 @@ class AccidentsListViewWeb extends ConsumerWidget {
                   ),
                 ],
               ),
-              loading: () => const CircularProgressIndicator(),
-              error: (error, stackTrace) => const SizedBox(),
-            ),
-          ),
-        ),
+        loading: () => const CircularProgressIndicator(),
+        error: (error, stackTrace) => const SizedBox(),
       ),
     );
   }

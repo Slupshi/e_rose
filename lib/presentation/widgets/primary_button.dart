@@ -1,4 +1,4 @@
-import 'package:e_rose/assets/colors.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomPrimaryButton extends StatelessWidget {
@@ -12,9 +12,9 @@ class CustomPrimaryButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
-    this.backgroundColor = lightOrange,
-    this.foregroundColor = white,
-    this.borderColor = black,
+    this.backgroundColor = CustomColors.lightBlue,
+    this.foregroundColor = CustomColors.white,
+    this.borderColor = CustomColors.black,
   });
 
   @override

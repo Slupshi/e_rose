@@ -7,9 +7,9 @@ part 'accident.g.dart';
 class Accident with _$Accident {
   const factory Accident({
     required int id,
-    required String name,
-    required String description,
-    required String iconCode,
+    required String? name,
+    required String? description,
+    required String? iconCode,
     required String? iconFontFamily,
     required String? iconFontPackage,
   }) = _Accident;

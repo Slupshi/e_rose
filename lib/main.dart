@@ -1,4 +1,4 @@
-import 'package:e_rose/assets/colors.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
-            color: white,
+            color: CustomColors.white,
             fontSize: 12,
           ),
         ),
