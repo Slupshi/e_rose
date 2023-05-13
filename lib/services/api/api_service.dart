@@ -24,7 +24,13 @@ class ApiService {
   }
 
   Future httpPost(String url, Object model) async {
-    final response = await _dio.post("${Env.baseApiUrl}/$url", data: model);
+    final response = await _dio.post(
+      "${Env.baseApiUrl}/$url",
+      data: model,
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+    );
     return response.data;
   }
 

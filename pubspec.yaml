@@ -49,6 +49,7 @@ dependencies:
   url_launcher: ^6.1.11
   flutter_map: ^4.0.0
   latlong2: ^0.8.1
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:

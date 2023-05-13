@@ -1,5 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,8 +46,14 @@ class HeroCardMapWidget extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(
+        Container(
           height: constraints.maxHeight / 1.8,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: CustomColors.white,
+              width: 5,
+            ),
+          ),
           child: FlutterMap(
             mapController: mapController,
             options: MapOptions(
