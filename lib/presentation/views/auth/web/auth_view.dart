@@ -18,7 +18,7 @@ class AuthViewWeb extends StatelessWidget {
             thickness: 3,
             width: 3,
           ),
-          Expanded(child: RegisterWidget()),
+          const Expanded(child: RegisterWidget()),
         ],
       ),
     );

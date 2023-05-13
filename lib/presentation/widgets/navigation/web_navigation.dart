@@ -25,8 +25,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
         backgroundColor: CustomColors.black,
         leadingWidth: 200,
         leading: InkWell(
-          onTap: () => onItemTapped(context,
-              routes.indexOf(routes.firstWhere((route) => route.path == "/"))),
+          onTap: () => context.go("/"),
           mouseCursor: SystemMouseCursors.click,
           child: const Center(
             child: Text(

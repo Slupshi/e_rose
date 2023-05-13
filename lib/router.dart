@@ -1,6 +1,7 @@
 import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/auth/web/profile_view.dart';
+import 'package:e_rose/presentation/views/auth/web/register_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/heroes_list_view.dart';
 import 'package:e_rose/presentation/views/home/web/home_view.dart';
 import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
@@ -54,6 +55,12 @@ final GoRouter router = GoRouter(
           path: "/profile",
           pageBuilder: (context, state) => NoTransitionPage(
             child: _child(webChild: const UserProfileViewWeb()),
+          ),
+        ),
+        GoRoute(
+          path: "/register",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: RegisterViewWeb()),
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
-import 'package:e_rose/controllers/auth_controller.dart';
+import 'package:e_rose/controllers/login_controller.dart';
+import 'package:e_rose/presentation/widgets/auth/auth_entry_widget.dart';
 import 'package:e_rose/services/api/dto/auth/login_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/primary_button.dart';
@@ -8,9 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginWidget extends ConsumerWidget {
-  final TextEditingController _emailLoginController = TextEditingController();
-  final TextEditingController _passwordLoginController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   LoginWidget({super.key});
 
   @override
@@ -32,50 +32,26 @@ class LoginWidget extends ConsumerWidget {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
-          TextFormField(
-            controller: _emailLoginController,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelText: "Email",
-              labelStyle: const TextStyle(color: CustomColors.lightBlue),
-              filled: true,
-              fillColor: CustomColors.white,
-              hintText: "john.doe@gmail.com",
-              hintStyle: const TextStyle(
-                color: CustomColors.grey,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
+          AuthEntryWidget(
+            textEditingController: _emailController,
+            labelText: "Email",
+            hintText: "john.doe@gmail.com",
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
-          TextFormField(
-            controller: _passwordLoginController,
-            obscureText: true,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelText: "Mot de passe",
-              labelStyle: const TextStyle(color: CustomColors.lightBlue),
-              filled: true,
-              fillColor: CustomColors.white,
-              hintText: "password",
-              hintStyle: const TextStyle(
-                color: CustomColors.grey,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
+          AuthEntryWidget(
+            textEditingController: _passwordController,
+            labelText: "Mot de passe",
+            hintText: "password",
+            isObscureText: true,
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
           CustomPrimaryButton(
             onPressed: () async {
               final isLogged =
-                  await ref.read(authControllerProvider.notifier).login(
+                  await ref.read(loginControllerProvider.notifier).login(
                         LoginModel(
-                          email: _emailLoginController.text,
-                          password: _passwordLoginController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
                         ),
                       );
               if (isLogged) {
