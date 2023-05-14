@@ -2,7 +2,7 @@ import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 
 class AuthEntryWidget extends StatelessWidget {
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
   final String labelText;
   final String hintText;
   final bool isObscureText;
@@ -10,7 +10,7 @@ class AuthEntryWidget extends StatelessWidget {
   final String? initialValue;
   const AuthEntryWidget({
     super.key,
-    required this.textEditingController,
+    this.textEditingController,
     required this.labelText,
     required this.hintText,
     this.isObscureText = false,

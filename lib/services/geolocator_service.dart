@@ -1,5 +1,4 @@
-import 'package:e_rose/services/api/api_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -55,9 +54,11 @@ class GeoLocatorService {
     // return 12742 * asin(sqrt(a));
   }
 
-  static Future<String> getAddressFromPos(Ref ref, LatLng pos) async {
-    final address = await ref.read(apiServiceProvider).httpGet(
+  static Future<String> getAddressFromPos(LatLng pos) async {
+    final Dio dio = Dio();
+    final res = await dio.get(
         "https://nominatim.openstreetmap.org/reverse?lat=${pos.latitude}&lon=${pos.longitude}&format=json");
+    final address = res.data["display_name"];
     return address;
   }
 }

@@ -20,6 +20,7 @@ class RegisterState with _$RegisterState {
     required List<Accident> selectedAccident,
     required SelectedAccidentsErrorType accidentsErrorType,
     LatLng? selectedPos,
+    String? address,
   }) = _RegisterState;
 }
 
@@ -74,15 +75,12 @@ class RegisterController extends _$RegisterController {
     }
   }
 
-  void selectMapPoint(LatLng pos) {
-    state = AsyncData(state.value!.copyWith(selectedPos: pos));
-  }
-
-  Future<String> getAddressFromCoords() async {
-    if (state.value?.selectedPos != null) {
-      await GeoLocatorService.getAddressFromPos(ref, state.value!.selectedPos!);
-    }
-    return "";
+  Future<void> selectMapPoint(LatLng pos) async {
+    final address = await GeoLocatorService.getAddressFromPos(pos);
+    state = AsyncData(state.value!.copyWith(
+      selectedPos: pos,
+      address: address,
+    ));
   }
 
   Future<bool> register(RegisterModel model) async {
