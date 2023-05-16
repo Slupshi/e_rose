@@ -280,7 +280,9 @@ class RegisterViewWeb extends ConsumerWidget {
                                 ),
                               );
                               if (isRegistered) {
-                                context.go("/");
+                                if (context.mounted) {
+                                  context.go("/");
+                                }
                               }
                             }
                           },

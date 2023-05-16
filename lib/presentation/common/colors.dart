@@ -7,7 +7,7 @@ class CustomColors {
   static const darkerNightBlue = Color.fromARGB(255, 14, 24, 46);
   static const lightOrange = Color(0xffFCA311);
   static const lighGrey = Color(0xffE5E5E5);
-  static const lightBlue = Color(0xff57c3fa);
+  static const lightBlue = Color.fromARGB(255, 0, 166, 248);
   static const white = Color(0xffffffff);
 
   static const darkRed = Color(0xff660708);

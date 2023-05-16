@@ -55,7 +55,9 @@ class LoginWidget extends ConsumerWidget {
                         ),
                       );
               if (isLogged) {
-                context.go("/");
+                if (context.mounted) {
+                  context.go("/");
+                }
               }
             },
             text: "Connexion",

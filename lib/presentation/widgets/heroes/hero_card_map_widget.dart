@@ -116,7 +116,7 @@ class HeroCardMapWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "Superhero",
+                    selectedHero.heroName,
                     textScaleFactor: textScaleFactor(context),
                     style: const TextStyle(fontSize: 8),
                   ),
