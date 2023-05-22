@@ -263,6 +263,24 @@ class RegisterViewWeb extends ConsumerWidget {
                         CustomPrimaryButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              if (registerState.selectedAccident.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    actionsAlignment: MainAxisAlignment.center,
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("Je rectifie !"),
+                                      )
+                                    ],
+                                    content: const Text(
+                                      "Vous devez sélectionner entre 1 et 3 types d'incidents",
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
                               final isRegistered =
                                   await registerController.register(
                                 RegisterModel(
@@ -279,6 +297,14 @@ class RegisterViewWeb extends ConsumerWidget {
                               if (isRegistered) {
                                 if (context.mounted) {
                                   context.go("/");
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: Text(
+                                        "Vous êtes maintenant connecté en tant que ${_heroNameController.text}",
+                                      ),
+                                    ),
+                                  );
                                 }
                               }
                             }

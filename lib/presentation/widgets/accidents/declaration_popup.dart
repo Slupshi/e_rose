@@ -17,7 +17,7 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
     final nearestHeroes = heroes
         .where((hero) =>
             declarationController.getDistance(hero) != null &&
-            declarationController.getDistance(hero)! < 0.05)
+            declarationController.getDistance(hero)! < 50)
         .toList();
     return AlertDialog(
       title: const Text("Déclaration effectuée !"),
