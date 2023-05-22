@@ -1,6 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/login_controller.dart';
-import 'package:e_rose/presentation/widgets/auth/auth_entry_widget.dart';
+import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
 import 'package:e_rose/services/api/dto/auth/login_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/primary_button.dart';
@@ -32,13 +32,13 @@ class LoginWidget extends ConsumerWidget {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
-          AuthEntryWidget(
+          CustomEntryWidget(
             textEditingController: _emailController,
             labelText: "Email",
             hintText: "john.doe@gmail.com",
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
-          AuthEntryWidget(
+          CustomEntryWidget(
             textEditingController: _passwordController,
             labelText: "Mot de passe",
             hintText: "password",

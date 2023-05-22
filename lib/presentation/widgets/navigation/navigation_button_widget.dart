@@ -7,15 +7,17 @@ import 'package:go_router/go_router.dart';
 
 class NavigationButtonWidget extends StatelessWidget with NavigationBase {
   final MyRoute route;
+  final bool isSelected;
   const NavigationButtonWidget({
     super.key,
     required this.route,
+    required this.isSelected,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: isCurrentRoute(context, route)
+      decoration: isSelected
           ? const BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -56,13 +58,6 @@ class NavigationButtonWidget extends StatelessWidget with NavigationBase {
                 ),
               ),
             ),
-            // if (isCurrentRoute(context, route))
-            //   const SizedBox(
-            //     height: 5,
-            //     child: Material(
-            //       color: CustomColors.red,
-            //     ),
-            //   ),
           ],
         ),
       ),

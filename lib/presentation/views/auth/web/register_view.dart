@@ -2,7 +2,8 @@ import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/register_controller.dart';
 import 'package:e_rose/models/accident.dart';
 import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/presentation/widgets/auth/auth_entry_widget.dart';
+import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
+import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
 import 'package:e_rose/presentation/widgets/page_template.dart';
 import 'package:e_rose/presentation/widgets/primary_button.dart';
 import 'package:e_rose/services/api/dto/auth/register_model.dart';
@@ -45,7 +46,7 @@ class RegisterViewWeb extends ConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AuthEntryWidget(
+                          CustomEntryWidget(
                             textEditingController: _heroNameController,
                             labelText: "Nom de héro",
                             hintText: "Superman",
@@ -56,7 +57,7 @@ class RegisterViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          AuthEntryWidget(
+                          CustomEntryWidget(
                             textEditingController: _emailController,
                             labelText: "Email",
                             hintText: "super.man@erose.com",
@@ -68,7 +69,7 @@ class RegisterViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          AuthEntryWidget(
+                          CustomEntryWidget(
                             textEditingController: _passwordController,
                             labelText: "Mot de passe",
                             hintText: "password",
@@ -84,7 +85,7 @@ class RegisterViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          AuthEntryWidget(
+                          CustomEntryWidget(
                             textEditingController: _confirmPasswordController,
                             isObscureText: true,
                             labelText: "Confirmation du mot de passe",
@@ -96,7 +97,7 @@ class RegisterViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          AuthEntryWidget(
+                          CustomEntryWidget(
                             textEditingController: _phoneNumberController,
                             labelText: "Téléphone",
                             hintText: "0601020304",
@@ -127,7 +128,12 @@ class RegisterViewWeb extends ConsumerWidget {
                                           CrossAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(accident.name!),
+                                        Text(
+                                          accident.name!,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         IconButton(
                                           iconSize: 15,
                                           padding: EdgeInsets.zero,
@@ -149,48 +155,34 @@ class RegisterViewWeb extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: CustomColors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: DropdownButton(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              hint: const Text(
-                                "Sélectionnez un incident",
-                                style: TextStyle(
-                                  color: CustomColors.grey,
-                                ),
-                              ),
-                              underline: const SizedBox(),
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: registerState.accidents
-                                  .map((Accident accident) {
-                                return DropdownMenuItem(
-                                  value: accident,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      FaIcon(
-                                        IconData(
-                                          int.parse(accident.iconCode!),
-                                          fontFamily: accident.iconFontFamily,
-                                          fontPackage: accident.iconFontPackage,
-                                        ),
+                          DropdownWidget(
+                            onChanged: (Object? accident) {
+                              if (accident != null) {
+                                registerController
+                                    .selectAccident(accident as Accident);
+                              }
+                            },
+                            hintText: "Sélectionnez un incident",
+                            items: registerState.accidents
+                                .map((Accident accident) {
+                              return DropdownMenuItem(
+                                value: accident,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FaIcon(
+                                      IconData(
+                                        int.parse(accident.iconCode!),
+                                        fontFamily: accident.iconFontFamily,
+                                        fontPackage: accident.iconFontPackage,
                                       ),
-                                      const SizedBox(width: 10),
-                                      Text(accident.name!),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (Accident? accident) {
-                                if (accident != null) {
-                                  registerController.selectAccident(accident);
-                                }
-                              },
-                            ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(accident.name!),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -202,12 +194,13 @@ class RegisterViewWeb extends ConsumerWidget {
                                     ? "Vous ne pouvez vous occuper que de 3 situations différentes !"
                                     : "Ne soyez pas timide, choisissez une situation !",
                             textScaleFactor: textScaleFactor(context),
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: CustomColors.red,
                               fontSize: 10,
                               fontStyle: FontStyle.italic,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -251,10 +244,12 @@ class RegisterViewWeb extends ConsumerWidget {
                         SizedBox(
                             height: MediaQuery.of(context).size.height / 45),
                         CustomPrimaryButton(
-                            onPressed: () {}, text: "Votre position"),
+                          onPressed: () {},
+                          text: "Votre position",
+                        ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height / 45),
-                        AuthEntryWidget(
+                        CustomEntryWidget(
                           textEditingController: addressController,
                           labelText: "Adresse",
                           hintText: "Cliquez sur la carte",
@@ -263,6 +258,8 @@ class RegisterViewWeb extends ConsumerWidget {
                                   ? "Il vous faut une adresse"
                                   : null,
                         ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 45),
                         CustomPrimaryButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {

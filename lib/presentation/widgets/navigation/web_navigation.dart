@@ -70,6 +70,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
             children: [
               for (var route in navigationRoutes) ...[
                 NavigationButtonWidget(
+                  isSelected: isCurrentRoute(context, route),
                   route: route,
                 ),
               ],

@@ -53,7 +53,7 @@ class HomeViewWeb extends StatelessWidget {
                           children: [
                             const Spacer(flex: 2),
                             Flexible(
-                              flex: 5,
+                              flex: 7,
                               child: CustomPrimaryButton(
                                 onPressed: () {},
                                 text: "Je le déclare !",
@@ -61,13 +61,13 @@ class HomeViewWeb extends StatelessWidget {
                             ),
                             const Spacer(),
                             Flexible(
-                              flex: 5,
+                              flex: 12,
                               child: CustomPrimaryButton(
                                 onPressed: () => context.go("/accidents"),
                                 text: "Découvrir les incidents",
                               ),
                             ),
-                            const Spacer(flex: 6),
+                            const Spacer(flex: 3),
                           ],
                         ),
                       ],

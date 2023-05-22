@@ -1,14 +1,15 @@
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 
-class AuthEntryWidget extends StatelessWidget {
+class CustomEntryWidget extends StatelessWidget {
   final TextEditingController? textEditingController;
   final String labelText;
   final String hintText;
   final bool isObscureText;
   final String? Function(String?)? validator;
   final String? initialValue;
-  const AuthEntryWidget({
+  final int maxLines;
+  const CustomEntryWidget({
     super.key,
     this.textEditingController,
     required this.labelText,
@@ -16,11 +17,13 @@ class AuthEntryWidget extends StatelessWidget {
     this.isObscureText = false,
     this.validator,
     this.initialValue,
+    this.maxLines = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       initialValue: initialValue,
       validator: validator,
       controller: textEditingController,

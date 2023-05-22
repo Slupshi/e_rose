@@ -9,7 +9,7 @@ class NavigationBase {
   int _locationToIndex(String location) {
     final index = navigationRoutes.indexWhere((t) => location == t.path);
     // if index not found (-1), return 0
-    return index < 0 ? 0 : index;
+    return index;
   }
 
   bool isCurrentRoute(BuildContext context, MyRoute route) =>

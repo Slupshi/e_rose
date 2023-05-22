@@ -1,4 +1,4 @@
-import 'package:e_rose/presentation/views/accidents/accident_declaration_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
@@ -115,7 +115,7 @@ final List<MyRoute> navigationRoutes = [
     path: "/declaration",
     icon: Icons.phone_in_talk_sharp,
     child: _child(
-      webChild: const AccidentDeclarationViewWeb(),
+      webChild: AccidentDeclarationViewWeb(),
     ),
   ),
 ];
