@@ -36,12 +36,17 @@ class HomeButtonWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               side: const BorderSide(
                 color: CustomColors.white,
-                width: 1,
+                width: 2,
               ),
             ),
           ),
         ),
-        child: Text(text),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 17,
+          ),
+        ),
       ),
     );
   }

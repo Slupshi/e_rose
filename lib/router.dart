@@ -9,6 +9,7 @@ import 'package:e_rose/presentation/views/home/web/home_view.dart';
 import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 // private navigators
@@ -112,9 +113,9 @@ final List<MyRoute> navigationRoutes = [
   MyRoute(
     name: "Incidents",
     path: "/accidents",
-    icon: Icons.warning_amber_rounded,
+    icon: FontAwesomeIcons.mapLocationDot,
     child: _child(
-      webChild: const AccidentMapViewWeb(),
+      webChild: AccidentMapViewWeb(),
     ),
   ),
   MyRoute(
