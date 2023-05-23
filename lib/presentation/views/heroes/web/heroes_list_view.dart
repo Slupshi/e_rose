@@ -1,9 +1,10 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/hero_controller.dart';
 import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
 import 'package:e_rose/presentation/widgets/heroes/hero_card_info_widget.dart';
 import 'package:e_rose/presentation/widgets/heroes/hero_card_map_widget.dart';
-import 'package:e_rose/presentation/widgets/page_template.dart';
+import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,8 +80,12 @@ class HeroesListViewWeb extends ConsumerWidget {
                                                   ),
                                                 ),
                                                 TextSpan(
-                                                  text:
-                                                      "  (${heroController.getDistance(hero).toString()})",
+                                                  text: heroController
+                                                              .getDistance(
+                                                                  hero) !=
+                                                          null
+                                                      ? "  (${heroController.getDistance(hero)})"
+                                                      : "",
                                                   style: const TextStyle(
                                                     fontSize: 8,
                                                     fontStyle: FontStyle.italic,
@@ -102,11 +107,7 @@ class HeroesListViewWeb extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const VerticalDivider(
-                    color: CustomColors.white,
-                    thickness: 3,
-                    width: 3,
-                  ),
+                  const CustomVerticalDivider(),
                   Flexible(
                     flex: 3,
                     child: LayoutBuilder(

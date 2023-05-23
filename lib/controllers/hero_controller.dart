@@ -21,16 +21,24 @@ class HeroState with _$HeroState {
 class HeroController extends _$HeroController {
   @override
   FutureOr<HeroState> build() async {
-    final heroes = await ref.read(heroRepositoryProvider).getHeroes();
-    final pos = await GeoLocatorService.determinePosition();
-    return HeroState(
-      heroes: heroes,
-      selectedhero: heroes.isNotEmpty ? heroes.first : null,
-      userPosition: pos,
-    );
+    try {
+      final pos = await GeoLocatorService.determinePosition();
+      final heroes = await ref.read(heroRepositoryProvider).getHeroes();
+      return HeroState(
+        heroes: heroes,
+        selectedhero: heroes.isNotEmpty ? heroes.first : null,
+        userPosition: pos,
+      );
+    } catch (e) {
+      return const HeroState(
+        heroes: [],
+        selectedhero: null,
+        userPosition: null,
+      );
+    }
   }
 
-  String getDistance(HeroModel hero) {
+  String? getDistance(HeroModel hero) {
     if (state.value?.userPosition != null) {
       final double distance = GeoLocatorService.calculateDistance(
         state.value!.userPosition!.latitude,
@@ -46,7 +54,7 @@ class HeroController extends _$HeroController {
         return "${distance.toStringAsFixed(2)} m";
       }
     }
-    return "Inconnue";
+    return null;
   }
 
   void select(HeroModel hero) {

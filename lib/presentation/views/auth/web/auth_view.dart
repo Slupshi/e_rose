@@ -1,7 +1,7 @@
-import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/auth/login_widget.dart';
 import 'package:e_rose/presentation/widgets/auth/register_widget.dart';
-import 'package:e_rose/presentation/widgets/page_template.dart';
+import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
+import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:flutter/material.dart';
 
 class AuthViewWeb extends StatelessWidget {
@@ -13,11 +13,7 @@ class AuthViewWeb extends StatelessWidget {
       child: Row(
         children: [
           Expanded(child: LoginWidget()),
-          const VerticalDivider(
-            color: CustomColors.white,
-            thickness: 3,
-            width: 3,
-          ),
+          const CustomVerticalDivider(),
           const Expanded(child: RegisterWidget()),
         ],
       ),

@@ -4,8 +4,8 @@ import 'package:e_rose/models/accident.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
-import 'package:e_rose/presentation/widgets/page_template.dart';
-import 'package:e_rose/presentation/widgets/primary_button.dart';
+import 'package:e_rose/presentation/widgets/common/page_template.dart';
+import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:e_rose/services/api/dto/auth/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -31,6 +31,17 @@ class RegisterViewWeb extends ConsumerWidget {
       data: (registerState) {
         final TextEditingController addressController =
             TextEditingController(text: registerState.address);
+        if (registerState.allReadyTakenErrorMessage != null) {
+          Future.delayed(
+            Duration.zero,
+            () => showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text(registerState.allReadyTakenErrorMessage!),
+              ),
+            ),
+          );
+        }
         return Center(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

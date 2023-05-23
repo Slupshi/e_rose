@@ -4,8 +4,9 @@ import 'package:e_rose/models/declaration.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/declaration_popup.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
-import 'package:e_rose/presentation/widgets/page_template.dart';
-import 'package:e_rose/presentation/widgets/primary_button.dart';
+import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
+import 'package:e_rose/presentation/widgets/common/page_template.dart';
+import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -161,11 +162,7 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                   ),
                 ),
               ),
-              const VerticalDivider(
-                color: CustomColors.white,
-                thickness: 3,
-                width: 3,
-              ),
+              const CustomVerticalDivider(),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(

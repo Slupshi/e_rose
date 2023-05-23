@@ -1,7 +1,8 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/accident_controller.dart';
 import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/presentation/widgets/page_template.dart';
+import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
+import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -102,11 +103,7 @@ class AccidentsListViewWeb extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const VerticalDivider(
-                    color: CustomColors.white,
-                    thickness: 3,
-                    width: 3,
-                  ),
+                  const CustomVerticalDivider(),
                   Flexible(
                     flex: 3,
                     child: LayoutBuilder(

@@ -2,6 +2,7 @@ import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HeroCardInfoWidget extends StatelessWidget {
   final HeroModel selectedHero;
@@ -24,13 +25,27 @@ class HeroCardInfoWidget extends StatelessWidget {
           field: "Nom",
           value: selectedHero.lastName,
         ),
-        _RichtTextHeroCard(
-          field: "Mail",
-          value: selectedHero.email,
+        InkWell(
+          mouseCursor: SystemMouseCursors.click,
+          onTap: () async {
+            final Uri url = Uri(scheme: 'mailto', path: selectedHero.email);
+            await launchUrl(url);
+          },
+          child: _RichtTextHeroCard(
+            field: "Mail",
+            value: selectedHero.email,
+          ),
         ),
-        _RichtTextHeroCard(
-          field: "Téléphone",
-          value: selectedHero.phoneNumber,
+        InkWell(
+          mouseCursor: SystemMouseCursors.click,
+          onTap: () async {
+            final Uri url = Uri(scheme: 'tel', path: selectedHero.phoneNumber);
+            await launchUrl(url);
+          },
+          child: _RichtTextHeroCard(
+            field: "Téléphone",
+            value: selectedHero.phoneNumber,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(

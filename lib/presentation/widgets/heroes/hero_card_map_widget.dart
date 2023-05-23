@@ -123,26 +123,28 @@ class HeroCardMapWidget extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell(
-              mouseCursor: SystemMouseCursors.click,
-              onTap: () => centerOnUserPosition(),
-              child: Row(
-                children: [
-                  Material(
-                    color: Colors.blue,
-                    child: SizedBox.square(
-                      dimension: constraints.maxHeight / 32,
+            if (userPosition != null) ...[
+              InkWell(
+                mouseCursor: SystemMouseCursors.click,
+                onTap: () => centerOnUserPosition(),
+                child: Row(
+                  children: [
+                    Material(
+                      color: Colors.blue,
+                      child: SizedBox.square(
+                        dimension: constraints.maxHeight / 32,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    "Vous",
-                    textScaleFactor: textScaleFactor(context),
-                    style: const TextStyle(fontSize: 8),
-                  ),
-                ],
+                    const SizedBox(width: 10),
+                    Text(
+                      "Vous",
+                      textScaleFactor: textScaleFactor(context),
+                      style: const TextStyle(fontSize: 8),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         )
       ],

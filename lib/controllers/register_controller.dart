@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:e_rose/models/accident.dart';
 import 'package:e_rose/models/repositories/accident_repository.dart';
 import 'package:e_rose/models/repositories/auth_repository.dart';
@@ -19,6 +20,7 @@ class RegisterState with _$RegisterState {
     required List<Accident> accidents,
     required List<Accident> selectedAccident,
     required SelectedAccidentsErrorType accidentsErrorType,
+    required String? allReadyTakenErrorMessage,
     LatLng? selectedPos,
     String? address,
   }) = _RegisterState;
@@ -33,6 +35,7 @@ class RegisterController extends _$RegisterController {
       selectedAccident: [],
       accidents: accidents,
       accidentsErrorType: SelectedAccidentsErrorType.notEnought,
+      allReadyTakenErrorMessage: null,
     );
   }
 
@@ -90,7 +93,14 @@ class RegisterController extends _$RegisterController {
       final response = await authRepo.register(model);
       await prefs.setString("token", response.token);
       return true;
-    } catch (ex) {
+    } on DioError catch (ex) {
+      if (ex.response?.data != null) {
+        state = AsyncData(
+          state.value!.copyWith(
+            allReadyTakenErrorMessage: ex.response!.data.toString(),
+          ),
+        );
+      }
       return false;
     }
   }

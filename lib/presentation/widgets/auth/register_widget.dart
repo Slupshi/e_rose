@@ -1,6 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/presentation/widgets/primary_button.dart';
+import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
