@@ -17,6 +17,7 @@ class DropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
       decoration: BoxDecoration(
         color: CustomColors.white,
         borderRadius: BorderRadius.circular(5),

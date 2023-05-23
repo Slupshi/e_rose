@@ -24,14 +24,21 @@ class CustomEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: maxLines,
+      style: const TextStyle(fontSize: 12),
       initialValue: initialValue,
       validator: validator,
       controller: textEditingController,
       obscureText: isObscureText,
       decoration: InputDecoration(
+        isDense: true,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: labelText,
-        labelStyle: const TextStyle(color: CustomColors.lightBlue),
+        labelStyle: const TextStyle(
+          color: CustomColors.lightBlue,
+          fontWeight: FontWeight.bold,
+        ),
         filled: true,
         fillColor: CustomColors.white,
         hintText: hintText,

@@ -1,4 +1,5 @@
 import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/accident_map_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
@@ -70,6 +71,12 @@ final GoRouter router = GoRouter(
             child: _child(webChild: RegisterViewWeb()),
           ),
         ),
+        GoRoute(
+          path: "/accidentstypes",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: const AccidentsListViewWeb()),
+          ),
+        ),
       ],
     ),
   ],
@@ -107,7 +114,7 @@ final List<MyRoute> navigationRoutes = [
     path: "/accidents",
     icon: Icons.warning_amber_rounded,
     child: _child(
-      webChild: const AccidentsListViewWeb(),
+      webChild: const AccidentMapViewWeb(),
     ),
   ),
   MyRoute(

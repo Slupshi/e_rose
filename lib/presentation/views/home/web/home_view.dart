@@ -1,8 +1,7 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/presentation/widgets/common/primary_button.dart';
+import 'package:e_rose/presentation/widgets/home/home_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeViewWeb extends StatelessWidget {
@@ -10,226 +9,171 @@ class HomeViewWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: webPagePadding,
-      child: Column(
+    return Material(
+      color: CustomColors.black.withOpacity(0.2),
+      child: Row(
         children: [
+          const Spacer(flex: 1),
           Flexible(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: MediaQuery.of(context).size.width / 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Déclarer un incident",
-                          textScaleFactor: textScaleFactor(context),
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "Si vous appercevez un incident, déclarez le au plus vite !",
-                          textScaleFactor: textScaleFactor(context),
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Spacer(flex: 2),
-                            Flexible(
-                              flex: 7,
-                              child: CustomPrimaryButton(
-                                onPressed: () {},
-                                text: "Je le déclare !",
-                              ),
-                            ),
-                            const Spacer(),
-                            Flexible(
-                              flex: 12,
-                              child: CustomPrimaryButton(
-                                onPressed: () => context.go("/accidents"),
-                                text: "Découvrir les incidents",
-                              ),
-                            ),
-                            const Spacer(flex: 3),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: CustomColors.white,
-                        ),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: LayoutBuilder(
-                        builder: (context, constraints) => Stack(
-                          children: [
-                            Positioned(
-                              top: constraints.maxHeight / 6,
-                              left: constraints.maxWidth / 6,
-                              child: Icon(
-                                Icons.tsunami,
-                                color: CustomColors.white,
-                                size: constraints.maxHeight / 4,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: constraints.maxHeight / 7,
-                              right: constraints.maxWidth / 7,
-                              child: Icon(
-                                Icons.fire_truck_outlined,
-                                color: CustomColors.white,
-                                size: constraints.maxHeight / 4,
-                              ),
-                            ),
-                            Positioned(
-                              top: constraints.maxHeight / 8,
-                              right: constraints.maxWidth / 8,
-                              child: FaIcon(
-                                FontAwesomeIcons.carBurst,
-                                color: CustomColors.white,
-                                size: constraints.maxHeight / 4,
-                              ),
-                            ),
-                            Positioned(
-                              top: constraints.maxHeight / 2,
-                              left: constraints.maxWidth / 4,
-                              child: Icon(
-                                Icons.landslide_outlined,
-                                color: CustomColors.white,
-                                size: constraints.maxHeight / 4,
-                              ),
-                            ),
-                            Positioned(
-                              top: constraints.maxHeight / 3,
-                              left: constraints.maxWidth / 2,
-                              child: FaIcon(
-                                FontAwesomeIcons.truckMedical,
-                                color: CustomColors.white,
-                                size: constraints.maxHeight / 5,
-                              ),
-                            ),
-                          ],
+            flex: 3,
+            child: Column(
+              children: [
+                const Spacer(flex: 1),
+                Flexible(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Protéger & Servir",
+                        textScaleFactor: textScaleFactor(context),
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                      Text(
+                        "Déclarez tout incident au plus vite",
+                        textScaleFactor: textScaleFactor(context),
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "J'aide mon prochain en m'enregistrant",
+                        textScaleFactor: textScaleFactor(context),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      Text(
+                        "ou en déclarant un incident",
+                        textScaleFactor: textScaleFactor(context),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          HomeButtonWidget(
+                            onPressed: () => context.go("/declaration"),
+                            text: "Je déclare",
+                          ),
+                          const Spacer(flex: 1),
+                          HomeButtonWidget(
+                            onPressed: () => context.go("/register"),
+                            text: "Je m'enregistre",
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const Spacer(flex: 1),
+              ],
             ),
           ),
-          Divider(
-            color: CustomColors.white,
-            indent: MediaQuery.of(context).size.width / 10,
-            endIndent: MediaQuery.of(context).size.width / 10,
-            thickness: 3,
-          ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Center(
-                      child: LayoutBuilder(
-                        builder: (context, constraints) => FaIcon(
-                          FontAwesomeIcons.mask,
-                          color: CustomColors.white,
-                          size: constraints.maxHeight / 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Les super héros !",
-                          textScaleFactor: textScaleFactor(context),
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "Soyez en sécurité grâce aux héros qui veillent !",
-                          textScaleFactor: textScaleFactor(context),
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "Si vous sentez votre courage monter, n'attendez plus pour vous inscrire !",
-                          textScaleFactor: textScaleFactor(context),
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Spacer(flex: 2),
-                            Flexible(
-                              flex: 5,
-                              child: CustomPrimaryButton(
-                                onPressed: () => context.go("/heroes"),
-                                text: "Découvrir",
-                              ),
-                            ),
-                            const Spacer(),
-                            Flexible(
-                              flex: 5,
-                              child: CustomPrimaryButton(
-                                onPressed: () => context.go("/register"),
-                                text: "S'inscire",
-                              ),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const Spacer(flex: 3),
         ],
       ),
     );
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     const Spacer(flex: 3),
+    //     Flexible(
+    //       flex: 7,
+    //       child: Row(
+    //         children: [
+    //           const Spacer(flex: 1),
+    //           Flexible(
+    //             flex: 5,
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   "Se sentir en sécurité",
+    //                   textScaleFactor: textScaleFactor(context),
+    //                   style: const TextStyle(
+    //                     fontSize: 30,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10),
+    //                 Text(
+    //                   "Si vous appercevez un incident, déclarez le au plus vite !",
+    //                   textScaleFactor: textScaleFactor(context),
+    //                   style: const TextStyle(
+    //                     fontSize: 10,
+    //                     fontStyle: FontStyle.italic,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 20),
+    //                 Row(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: [
+    //                     CustomPrimaryButton(
+    //                       onPressed: () => context.go("/declaration"),
+    //                       text: "Je le déclare",
+    //                       height: 50,
+    //                       borderRadius: 100,
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           const Spacer(flex: 2)
+    //         ],
+    //       ),
+    //     ),
+    //     const Spacer(flex: 1),
+    //     Flexible(
+    //       flex: 7,
+    //       child: Row(
+    //         children: [
+    //           const Spacer(flex: 1),
+    //           Flexible(
+    //             flex: 5,
+    //             child: Column(
+    //               children: [
+    //                 Text(
+    //                   "Protéger",
+    //                   textScaleFactor: textScaleFactor(context),
+    //                   style: const TextStyle(
+    //                     fontSize: 30,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10),
+    //                 Text(
+    //                   "Prennez votre courage à deux mains et enregistrez vous !",
+    //                   textScaleFactor: textScaleFactor(context),
+    //                   style: const TextStyle(
+    //                     fontSize: 10,
+    //                     fontStyle: FontStyle.italic,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 20),
+    //                 CustomPrimaryButton(
+    //                   onPressed: () => context.go("/declaration"),
+    //                   text: "Je m'enregistre",
+    //                   height: 50,
+    //                   borderRadius: 100,
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           const Spacer(flex: 2)
+    //         ],
+    //       ),
+    //     ),
+    //     const Spacer(flex: 4),
+    //   ],
+    // );
   }
 }

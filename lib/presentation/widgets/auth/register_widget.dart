@@ -1,5 +1,4 @@
 import 'package:e_rose/assets/spacing.dart';
-import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +20,6 @@ class RegisterWidget extends ConsumerWidget {
             "Enregistrement",
             textScaleFactor: textScaleFactor(context),
             style: const TextStyle(
-              color: CustomColors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -32,8 +30,6 @@ class RegisterWidget extends ConsumerWidget {
             textScaleFactor: textScaleFactor(context),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: CustomColors.white,
-              fontSize: 12,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -43,8 +39,6 @@ class RegisterWidget extends ConsumerWidget {
             textScaleFactor: textScaleFactor(context),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: CustomColors.white,
-              fontSize: 12,
               fontStyle: FontStyle.italic,
             ),
           ),

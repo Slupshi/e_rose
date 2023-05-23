@@ -59,7 +59,6 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                             ),
                             icon: const Icon(Icons.keyboard_arrow_down),
                             dropdownColor: CustomColors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             items: declarationState.accidents
                                 .map((Accident accident) {
                               return DropdownMenuItem(
