@@ -22,7 +22,7 @@ class CustomPrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        fixedSize: MaterialStateProperty.all(const Size.fromHeight(40)),
+        fixedSize: MaterialStateProperty.all(const Size.fromHeight(35)),
         foregroundColor: MaterialStateProperty.all(foregroundColor),
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

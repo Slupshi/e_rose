@@ -3,6 +3,7 @@ import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeViewWeb extends StatelessWidget {
   const HomeViewWeb({super.key});
@@ -52,7 +53,7 @@ class HomeViewWeb extends StatelessWidget {
                           children: [
                             const Spacer(flex: 2),
                             Flexible(
-                              flex: 5,
+                              flex: 7,
                               child: CustomPrimaryButton(
                                 onPressed: () {},
                                 text: "Je le déclare !",
@@ -60,13 +61,13 @@ class HomeViewWeb extends StatelessWidget {
                             ),
                             const Spacer(),
                             Flexible(
-                              flex: 5,
+                              flex: 12,
                               child: CustomPrimaryButton(
-                                onPressed: () {},
+                                onPressed: () => context.go("/accidents"),
                                 text: "Découvrir les incidents",
                               ),
                             ),
-                            const Spacer(flex: 6),
+                            const Spacer(flex: 3),
                           ],
                         ),
                       ],
@@ -205,7 +206,7 @@ class HomeViewWeb extends StatelessWidget {
                             Flexible(
                               flex: 5,
                               child: CustomPrimaryButton(
-                                onPressed: () {},
+                                onPressed: () => context.go("/heroes"),
                                 text: "Découvrir",
                               ),
                             ),
@@ -213,7 +214,7 @@ class HomeViewWeb extends StatelessWidget {
                             Flexible(
                               flex: 5,
                               child: CustomPrimaryButton(
-                                onPressed: () {},
+                                onPressed: () => context.go("/register"),
                                 text: "S'inscire",
                               ),
                             ),

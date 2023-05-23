@@ -1,5 +1,6 @@
-
+import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 class GeoLocatorService {
   /// Determine the current position of the device.
@@ -51,5 +52,13 @@ class GeoLocatorService {
     //     c((lat2 - lat1) * p) / 2 +
     //     c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     // return 12742 * asin(sqrt(a));
+  }
+
+  static Future<String> getAddressFromPos(LatLng pos) async {
+    final Dio dio = Dio();
+    final res = await dio.get(
+        "https://nominatim.openstreetmap.org/reverse?lat=${pos.latitude}&lon=${pos.longitude}&format=json");
+    final address = res.data["display_name"];
+    return address;
   }
 }

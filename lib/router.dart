@@ -1,4 +1,8 @@
+import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
+import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
+import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
+import 'package:e_rose/presentation/views/auth/web/register_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/heroes_list_view.dart';
 import 'package:e_rose/presentation/views/home/web/home_view.dart';
 import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
@@ -34,13 +38,38 @@ final GoRouter router = GoRouter(
         }
       },
       routes: <GoRoute>[
-        for (var route in routes)
+        for (var route in navigationRoutes) ...[
           GoRoute(
             path: route.path,
             pageBuilder: (context, state) => NoTransitionPage(
               child: route.child,
             ),
           ),
+        ],
+        GoRoute(
+          path: "/",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: const HomeViewWeb()),
+          ),
+        ),
+        GoRoute(
+          path: "/auth",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: const AuthViewWeb()),
+          ),
+        ),
+        GoRoute(
+          path: "/profile",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: const UserProfileViewWeb()),
+          ),
+        ),
+        GoRoute(
+          path: "/register",
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: RegisterViewWeb()),
+          ),
+        ),
       ],
     ),
   ],
@@ -64,17 +93,7 @@ class MyRoute {
   });
 }
 
-final List<MyRoute> routes = [
-  MyRoute(
-    name: "Accueil",
-    path: "/",
-    icon: Icons.home,
-    child: _child(
-      // mobileChild: const HomeViewMobile(),
-      // desktopChild: const HomeViewDesktop(),
-      webChild: const HomeViewWeb(),
-    ),
-  ),
+final List<MyRoute> navigationRoutes = [
   MyRoute(
     name: "Heros",
     path: "/heroes",
@@ -89,6 +108,14 @@ final List<MyRoute> routes = [
     icon: Icons.warning_amber_rounded,
     child: _child(
       webChild: const AccidentsListViewWeb(),
+    ),
+  ),
+  MyRoute(
+    name: "Déclaration",
+    path: "/declaration",
+    icon: Icons.phone_in_talk_sharp,
+    child: _child(
+      webChild: AccidentDeclarationViewWeb(),
     ),
   ),
 ];
