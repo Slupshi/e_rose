@@ -14,9 +14,13 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final declarationController =
         ref.read(declarationControllerProvider.notifier);
-    final nearestHeroes = heroes
+    final orderedHeroes = [...heroes];
+    orderedHeroes.sort((a, b) => declarationController
+        .getDistance(a)!
+        .compareTo(declarationController.getDistance(b)!));
+    final nearestHeroes = orderedHeroes
         .where((hero) =>
-            declarationController.getDistance(hero) != null &&
+            //declarationController.getDistance(hero) != null &&
             declarationController.getDistance(hero)! < 50)
         .toList();
     return AlertDialog(
@@ -88,7 +92,7 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
                       height: 100,
                       width: 400,
                       child: ListView.builder(
-                        itemCount: heroes.length,
+                        itemCount: orderedHeroes.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.all(10),
@@ -96,17 +100,17 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                heroes[index].heroName,
+                                orderedHeroes[index].heroName,
                               ),
                               Text(
-                                declarationController
-                                            .getDistance(heroes[index]) ==
+                                declarationController.getDistance(
+                                            orderedHeroes[index]) ==
                                         null
                                     ? "N/A"
-                                    : "${declarationController.getDistance(heroes[index])}Km",
+                                    : "${declarationController.getDistance(orderedHeroes[index])}Km",
                               ),
                               Text(
-                                "Tel : ${heroes[index].phoneNumber}",
+                                "Tel : ${orderedHeroes[index].phoneNumber}",
                               ),
                             ],
                           ),
