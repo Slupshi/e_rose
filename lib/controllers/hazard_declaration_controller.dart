@@ -63,6 +63,12 @@ class HazardDeclarationController extends _$HazardDeclarationController {
     );
   }
 
+  Future<LatLng?> selectPointFromAddress(String address) async {
+    final pos = await GeoLocatorService.getPosFromAddress(address);
+    state = AsyncData(state.value!.copyWith(selectedPos: pos));
+    return pos;
+  }
+
   Future<bool> declareHazard(HazardModel model) async {
     try {
       await ref.read(hazardRepositoryProvider).postHazard(model);
