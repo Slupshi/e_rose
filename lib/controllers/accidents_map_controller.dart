@@ -107,13 +107,28 @@ class AccidentMapController extends _$AccidentMapController {
   }
 
   void search(String query) {
+    List<DeclarationModel> newDisplayedHazards = [];
+    if (state.value?.selectedAccidentType == null) {
+      newDisplayedHazards = state.value!.hazards
+          .where((hazard) =>
+              hazard.cityName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    } else {
+      newDisplayedHazards = state.value!.hazards
+          .where(
+            (hazard) =>
+                hazard.accident.name ==
+                    state.value!.selectedAccidentType!.name &&
+                hazard.cityName.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
+          )
+          .toList();
+    }
     state = AsyncData(
       state.value!.copyWith(
         query: query,
-        displayedHazards: state.value!.hazards
-            .where((hazard) =>
-                hazard.cityName.toLowerCase().contains(query.toLowerCase()))
-            .toList(),
+        displayedHazards: newDisplayedHazards,
       ),
     );
   }
