@@ -1,5 +1,5 @@
-import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/router.dart';
+import 'package:e_rose/presentation/common/theme.dart';
+import 'package:e_rose/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,15 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: appTitle,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            color: CustomColors.white,
-            fontSize: 12,
-          ),
-        ),
-      ),
+      theme: AppTheme.themeDark,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );

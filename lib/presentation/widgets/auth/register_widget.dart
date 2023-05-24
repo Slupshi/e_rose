@@ -1,6 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
-import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +21,6 @@ class RegisterWidget extends ConsumerWidget {
             "Enregistrement",
             textScaleFactor: textScaleFactor(context),
             style: const TextStyle(
-              color: CustomColors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -32,8 +31,6 @@ class RegisterWidget extends ConsumerWidget {
             textScaleFactor: textScaleFactor(context),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: CustomColors.white,
-              fontSize: 12,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -43,14 +40,12 @@ class RegisterWidget extends ConsumerWidget {
             textScaleFactor: textScaleFactor(context),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: CustomColors.white,
-              fontSize: 12,
               fontStyle: FontStyle.italic,
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
           CustomPrimaryButton(
-            onPressed: () => context.go("/register"),
+            onPressed: () => context.go(Routes.registerPage),
             text: "S'enregistrer",
           ),
         ],

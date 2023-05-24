@@ -14,15 +14,22 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final declarationController =
         ref.read(declarationControllerProvider.notifier);
-    final orderedHeroes = [...heroes];
-    orderedHeroes.sort((a, b) => declarationController
-        .getDistance(a)!
-        .compareTo(declarationController.getDistance(b)!));
-    final nearestHeroes = orderedHeroes
-        .where((hero) =>
-            //declarationController.getDistance(hero) != null &&
-            declarationController.getDistance(hero)! < 50)
-        .toList();
+    List<HeroModel> orderedHeroes = [...heroes];
+    List<HeroModel> nearestHeroes = [];
+    if (orderedHeroes.isNotEmpty) {
+      orderedHeroes.sort((a, b) => declarationController
+          .getDistance(a)!
+          .compareTo(declarationController.getDistance(b)!));
+      nearestHeroes = orderedHeroes
+          .where((hero) =>
+              //declarationController.getDistance(hero) != null &&
+              declarationController.getDistance(hero)! < 50)
+          .toList();
+      for (var hero in nearestHeroes) {
+        orderedHeroes.remove(hero);
+      }
+    }
+
     return AlertDialog(
       title: const Text("Déclaration effectuée !"),
       content: Column(
@@ -82,7 +89,7 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
                           ),
                     const SizedBox(height: 10),
                     const Text(
-                      "Au cas où :",
+                      "En renforts :",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

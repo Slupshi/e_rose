@@ -1,4 +1,5 @@
 import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/accident_map_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
@@ -6,16 +7,17 @@ import 'package:e_rose/presentation/views/auth/web/register_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/heroes_list_view.dart';
 import 'package:e_rose/presentation/views/home/web/home_view.dart';
 import 'package:e_rose/presentation/widgets/navigation/web_navigation.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-// private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
-  initialLocation: "/",
+  initialLocation: Routes.homePage,
   navigatorKey: _rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -38,6 +40,7 @@ final GoRouter router = GoRouter(
         }
       },
       routes: <GoRoute>[
+        // Get every top navigation bar routes
         for (var route in navigationRoutes) ...[
           GoRoute(
             path: route.path,
@@ -46,28 +49,35 @@ final GoRouter router = GoRouter(
             ),
           ),
         ],
+        // other routes
         GoRoute(
-          path: "/",
+          path: Routes.homePage,
           pageBuilder: (context, state) => NoTransitionPage(
             child: _child(webChild: const HomeViewWeb()),
           ),
         ),
         GoRoute(
-          path: "/auth",
+          path: Routes.authPage,
           pageBuilder: (context, state) => NoTransitionPage(
             child: _child(webChild: const AuthViewWeb()),
           ),
         ),
         GoRoute(
-          path: "/profile",
+          path: Routes.profilePage,
           pageBuilder: (context, state) => NoTransitionPage(
             child: _child(webChild: const UserProfileViewWeb()),
           ),
         ),
         GoRoute(
-          path: "/register",
+          path: Routes.registerPage,
           pageBuilder: (context, state) => NoTransitionPage(
             child: _child(webChild: RegisterViewWeb()),
+          ),
+        ),
+        GoRoute(
+          path: Routes.accidentList,
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: _child(webChild: const AccidentsListViewWeb()),
           ),
         ),
       ],
@@ -84,6 +94,7 @@ class MyRoute {
 
   final Widget child;
 
+  /// ### Top Navigation bar routes
   const MyRoute({
     required this.name,
     required this.path,
@@ -96,7 +107,7 @@ class MyRoute {
 final List<MyRoute> navigationRoutes = [
   MyRoute(
     name: "Heros",
-    path: "/heroes",
+    path: Routes.heroesListPage,
     icon: Icons.people_alt,
     child: _child(
       webChild: const HeroesListViewWeb(),
@@ -104,15 +115,15 @@ final List<MyRoute> navigationRoutes = [
   ),
   MyRoute(
     name: "Incidents",
-    path: "/accidents",
-    icon: Icons.warning_amber_rounded,
+    path: Routes.hazardMapPage,
+    icon: FontAwesomeIcons.mapLocationDot,
     child: _child(
-      webChild: const AccidentsListViewWeb(),
+      webChild: AccidentMapViewWeb(),
     ),
   ),
   MyRoute(
     name: "Déclaration",
-    path: "/declaration",
+    path: Routes.hazardDeclarationPage,
     icon: Icons.phone_in_talk_sharp,
     child: _child(
       webChild: AccidentDeclarationViewWeb(),
@@ -120,6 +131,9 @@ final List<MyRoute> navigationRoutes = [
   ),
 ];
 
+/// Get the current platform associated child
+///
+/// ### Currently working with web only
 Widget _child({
   //required Widget mobileChild,
   //required Widget desktopChild,

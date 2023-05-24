@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 
 class PageTemplateWidget extends StatelessWidget {
   final Widget child;
+  final double horizontalPaddingMultiplier;
+  final double verticalPaddingMultiplier;
   const PageTemplateWidget({
     super.key,
     required this.child,
+    this.horizontalPaddingMultiplier = 7,
+    this.verticalPaddingMultiplier = 9,
   });
 
   @override
@@ -13,8 +17,10 @@ class PageTemplateWidget extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 9,
-          horizontal: MediaQuery.of(context).size.width / 7,
+          vertical:
+              MediaQuery.of(context).size.height / verticalPaddingMultiplier,
+          horizontal:
+              MediaQuery.of(context).size.width / horizontalPaddingMultiplier,
         ),
         child: Container(
           decoration: BoxDecoration(

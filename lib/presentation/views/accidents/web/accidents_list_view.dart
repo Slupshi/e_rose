@@ -86,7 +86,6 @@ class AccidentsListViewWeb extends ConsumerWidget {
                                                     textScaleFactor(context),
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
                                                 ),
                                               ),
                                             ),

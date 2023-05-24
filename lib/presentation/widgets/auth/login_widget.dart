@@ -1,6 +1,7 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/login_controller.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:e_rose/services/api/dto/auth/login_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
@@ -56,7 +57,15 @@ class LoginWidget extends ConsumerWidget {
                       );
               if (isLogged) {
                 if (context.mounted) {
-                  context.go("/");
+                  context.go(Routes.homePage);
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text(
+                        "Vous êtes maintenant connecté avec l'adresse email : ${_emailController.text}",
+                      ),
+                    ),
+                  );
                 }
               }
             },

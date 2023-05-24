@@ -82,7 +82,7 @@ class RegisterController extends _$RegisterController {
     final address = await GeoLocatorService.getAddressFromPos(pos);
     state = AsyncData(state.value!.copyWith(
       selectedPos: pos,
-      address: address,
+      address: GeoLocatorService.displayAddress(address),
     ));
   }
 

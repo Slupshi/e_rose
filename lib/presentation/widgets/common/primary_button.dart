@@ -22,13 +22,14 @@ class CustomPrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
+        elevation: MaterialStateProperty.all(10),
         fixedSize: MaterialStateProperty.all(const Size.fromHeight(35)),
         foregroundColor: MaterialStateProperty.all(foregroundColor),
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(color: borderColor, width: 3),
+            side: BorderSide.none, //BorderSide(color: borderColor, width: 1),
           ),
         ),
       ),

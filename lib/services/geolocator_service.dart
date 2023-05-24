@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:e_rose/models/address.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -59,11 +60,16 @@ class GeoLocatorService {
     // return 12742 * asin(sqrt(a));
   }
 
-  static Future<String> getAddressFromPos(LatLng pos) async {
+  static Future<Address> getAddressFromPos(LatLng pos) async {
     final Dio dio = Dio();
     final res = await dio.get(
-        "https://nominatim.openstreetmap.org/reverse?lat=${pos.latitude}&lon=${pos.longitude}&format=json");
-    final address = res.data["display_name"];
+        "https://nominatim.openstreetmap.org/reverse?lat=${pos.latitude}&lon=${pos.longitude}&format=json&addressdetails=1");
+    Address address = Address.fromJson(res.data["address"]);
+    address = address.copyWith(displayAddress: res.data["display_name"]);
     return address;
   }
+
+  static String? displayAddress(Address? address) => address != null
+      ? "${address.houseNumber ?? ""} ${address.road ?? ""}${address.houseNumber != null && address.road != null ? "," : ""} ${address.postcode ?? ""} ${address.town ?? (address.city ?? "")}${address.postcode != null && address.town != null ? "," : ""} ${address.country ?? ""}"
+      : null;
 }

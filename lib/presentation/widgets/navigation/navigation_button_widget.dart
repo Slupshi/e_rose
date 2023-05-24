@@ -1,7 +1,7 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
-import 'package:e_rose/router.dart';
+import 'package:e_rose/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
