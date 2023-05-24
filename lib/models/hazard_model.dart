@@ -1,19 +1,19 @@
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'declaration.g.dart';
-part 'declaration.freezed.dart';
+part 'hazard_model.g.dart';
+part 'hazard_model.freezed.dart';
 
 @freezed
-class DeclarationModel with _$DeclarationModel {
-  const factory DeclarationModel({
+class HazardModel with _$HazardModel {
+  const factory HazardModel({
     required String cityName,
     required String description,
     required AccidentTypeModel accidentType,
     required double latitude,
     required double longitude,
-  }) = _DeclarationModel;
+  }) = _HazardModel;
 
-  factory DeclarationModel.fromJson(Map<String, Object?> json) =>
-      _$DeclarationModelFromJson(json);
+  factory HazardModel.fromJson(Map<String, Object?> json) =>
+      _$HazardModelFromJson(json);
 }

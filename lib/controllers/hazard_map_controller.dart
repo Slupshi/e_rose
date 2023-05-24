@@ -1,33 +1,33 @@
 import 'package:e_rose/models/accident_type_model.dart';
-import 'package:e_rose/models/declaration.dart';
+import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
-import 'package:e_rose/models/repositories/declaration_repository.dart';
+import 'package:e_rose/models/repositories/hazard_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'accidents_map_controller.g.dart';
-part 'accidents_map_controller.freezed.dart';
+part 'hazard_map_controller.g.dart';
+part 'hazard_map_controller.freezed.dart';
 
 @freezed
-class AccidentMapState with _$AccidentMapState {
-  const factory AccidentMapState({
+class HazardMapState with _$HazardMapState {
+  const factory HazardMapState({
     required List<AccidentTypeModel> accidentsTypes,
     AccidentTypeModel? selectedAccidentType,
     String? query,
-    required List<DeclarationModel> hazards,
-    required List<DeclarationModel> displayedHazards,
-  }) = _AccidentMapState;
+    required List<HazardModel> hazards,
+    required List<HazardModel> displayedHazards,
+  }) = _HazardMapState;
 }
 
 @riverpod
-class AccidentMapController extends _$AccidentMapController {
+class HazardMapController extends _$HazardMapController {
   @override
-  FutureOr<AccidentMapState> build() async {
-    final List<DeclarationModel> hazards =
-        await ref.read(declarationRepositoryProvider).getDeclarations();
+  FutureOr<HazardMapState> build() async {
+    final List<HazardModel> hazards =
+        await ref.read(hazardRepositoryProvider).getHazards();
     final List<AccidentTypeModel> accidents =
-        await ref.read(accidentTypeRepositoryProvider).getAccidents();
-    return AccidentMapState(
+        await ref.read(accidentTypeRepositoryProvider).getAccidentTypes();
+    return HazardMapState(
       accidentsTypes: accidents,
       hazards: hazards,
       displayedHazards: hazards,
@@ -43,7 +43,7 @@ class AccidentMapController extends _$AccidentMapController {
       );
 
   void resetAccidentFilter() {
-    List<DeclarationModel> newDisplayedHazards = [];
+    List<HazardModel> newDisplayedHazards = [];
     if (state.value?.query == null) {
       newDisplayedHazards = [...state.value!.hazards];
     } else {
@@ -64,7 +64,7 @@ class AccidentMapController extends _$AccidentMapController {
   }
 
   void resetQueryFilter() {
-    List<DeclarationModel> newDisplayedHazards = [];
+    List<HazardModel> newDisplayedHazards = [];
     if (state.value?.selectedAccidentType == null) {
       newDisplayedHazards = [...state.value!.hazards];
     } else {
@@ -83,7 +83,7 @@ class AccidentMapController extends _$AccidentMapController {
   }
 
   void selectAccident(AccidentTypeModel accidentType) {
-    List<DeclarationModel> newDisplayedHazards = [];
+    List<HazardModel> newDisplayedHazards = [];
     if (state.value?.query == null) {
       newDisplayedHazards = state.value!.hazards
           .where((hazard) => hazard.accidentType.name == accidentType.name)
@@ -108,7 +108,7 @@ class AccidentMapController extends _$AccidentMapController {
   }
 
   void search(String query) {
-    List<DeclarationModel> newDisplayedHazards = [];
+    List<HazardModel> newDisplayedHazards = [];
     if (state.value?.selectedAccidentType == null) {
       newDisplayedHazards = state.value!.hazards
           .where((hazard) =>

@@ -16,8 +16,8 @@ class AccidentTypeRepository {
     required this.accidentTypeSource,
   });
 
-  Future<List<AccidentTypeModel>> getAccidents() async {
-    final response = await accidentTypeSource.getAccidents();
+  Future<List<AccidentTypeModel>> getAccidentTypes() async {
+    final response = await accidentTypeSource.getAccidentTypes();
     final accidentTypes =
         (response as List).map((e) => AccidentTypeModel.fromJson(e)).toList();
     return accidentTypes;

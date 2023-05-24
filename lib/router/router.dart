@@ -1,5 +1,5 @@
-import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
-import 'package:e_rose/presentation/views/accidents/web/accident_map_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/hazard_declaration_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/hazard_map_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accident_type_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
@@ -118,7 +118,7 @@ final List<MyRoute> navigationRoutes = [
     path: Routes.hazardMapPage,
     icon: FontAwesomeIcons.mapLocationDot,
     child: _child(
-      webChild: AccidentMapViewWeb(),
+      webChild: HazardMapViewWeb(),
     ),
   ),
   MyRoute(
@@ -126,7 +126,7 @@ final List<MyRoute> navigationRoutes = [
     path: Routes.hazardDeclarationPage,
     icon: Icons.phone_in_talk_sharp,
     child: _child(
-      webChild: AccidentDeclarationViewWeb(),
+      webChild: HazardDeclarationViewWeb(),
     ),
   ),
 ];

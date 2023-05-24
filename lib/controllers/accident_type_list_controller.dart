@@ -19,7 +19,7 @@ class AccidentTypeListController extends _$AccidentTypeListController {
   @override
   FutureOr<AccidentTypeState> build() async {
     final accidentTypes =
-        await ref.read(accidentTypeRepositoryProvider).getAccidents();
+        await ref.read(accidentTypeRepositoryProvider).getAccidentTypes();
     accidentTypes.sort((a, b) => a.id.compareTo(b.id));
     return AccidentTypeState(
       accidentTypes: accidentTypes,

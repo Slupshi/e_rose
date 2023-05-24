@@ -17,5 +17,5 @@ class AccidentTypeSource {
     required this.apiService,
   });
 
-  Future getAccidents() async => await apiService.httpGet(url);
+  Future getAccidentTypes() async => await apiService.httpGet(url);
 }

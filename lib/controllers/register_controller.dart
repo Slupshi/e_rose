@@ -31,7 +31,7 @@ class RegisterController extends _$RegisterController {
   @override
   FutureOr<RegisterState> build() async {
     final accidentTypes =
-        await ref.read(accidentTypeRepositoryProvider).getAccidents();
+        await ref.read(accidentTypeRepositoryProvider).getAccidentTypes();
     return RegisterState(
       selectedAccidentType: [],
       accidentTypes: accidentTypes,

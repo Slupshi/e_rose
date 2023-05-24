@@ -1,4 +1,4 @@
-import 'package:e_rose/controllers/accidents_map_controller.dart';
+import 'package:e_rose/controllers/hazard_map_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_searchbar.dart';
@@ -14,17 +14,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
-class AccidentMapViewWeb extends ConsumerWidget {
-  final MapController mapController =
-      MapController(); // TODO: Center on user pos button
+class HazardMapViewWeb extends ConsumerWidget {
+  final MapController mapController = MapController();
   final TextEditingController _searchController = TextEditingController();
-  AccidentMapViewWeb({super.key});
+  HazardMapViewWeb({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accidentMapController =
-        ref.read(accidentMapControllerProvider.notifier);
-    final data = ref.watch(accidentMapControllerProvider);
+        ref.read(hazardMapControllerProvider.notifier);
+    final data = ref.watch(hazardMapControllerProvider);
     return PageTemplateWidget(
       horizontalPaddingMultiplier: 20,
       verticalPaddingMultiplier: 20,

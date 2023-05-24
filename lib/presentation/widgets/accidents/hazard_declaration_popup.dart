@@ -1,11 +1,11 @@
-import 'package:e_rose/controllers/declaration_controller.dart';
+import 'package:e_rose/controllers/hazard_declaration_controller.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DeclarationConfirmationPopup extends ConsumerWidget {
+class HazardDeclarationConfirmationPopup extends ConsumerWidget {
   final List<HeroModel> heroes;
-  const DeclarationConfirmationPopup({
+  const HazardDeclarationConfirmationPopup({
     super.key,
     required this.heroes,
   });
@@ -13,7 +13,7 @@ class DeclarationConfirmationPopup extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final declarationController =
-        ref.read(declarationControllerProvider.notifier);
+        ref.read(hazardDeclarationControllerProvider.notifier);
     List<HeroModel> orderedHeroes = [...heroes];
     List<HeroModel> nearestHeroes = [];
     if (orderedHeroes.isNotEmpty) {
