@@ -1,20 +1,21 @@
 import 'package:e_rose/services/api/api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'accident_source.g.dart';
+part 'accident_type_source.g.dart';
 
 @riverpod
-AccidentSource accidentSource(AccidentSourceRef ref) => AccidentSource(
+AccidentTypeSource accidentTypeSource(AccidentTypeSourceRef ref) =>
+    AccidentTypeSource(
       apiService: ref.watch(apiServiceProvider),
     );
 
-class AccidentSource {
+class AccidentTypeSource {
   final String url = "Accidents";
   final ApiService apiService;
 
-  AccidentSource({
+  AccidentTypeSource({
     required this.apiService,
   });
 
-  Future getAccidents() async => await apiService.httpGet(url);
+  Future getAccidentTypes() async => await apiService.httpGet(url);
 }

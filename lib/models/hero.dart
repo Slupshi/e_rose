@@ -1,4 +1,4 @@
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'hero.freezed.dart';
@@ -16,7 +16,8 @@ class HeroModel with _$HeroModel {
     required double longitude,
     required double latitude,
     int? heroScore,
-    required List<Accident>? accidents,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'accidents') required List<AccidentTypeModel>? accidentTypes,
   }) = _HeroModel;
 
   factory HeroModel.fromJson(Map<String, Object?> json) =>

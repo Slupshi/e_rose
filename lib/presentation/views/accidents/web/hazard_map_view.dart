@@ -1,5 +1,5 @@
-import 'package:e_rose/controllers/accidents_map_controller.dart';
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/controllers/hazard_map_controller.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_searchbar.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
@@ -14,17 +14,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
-class AccidentMapViewWeb extends ConsumerWidget {
-  final MapController mapController =
-      MapController(); // TODO: Center on user pos button
+class HazardMapViewWeb extends ConsumerWidget {
+  final MapController mapController = MapController();
   final TextEditingController _searchController = TextEditingController();
-  AccidentMapViewWeb({super.key});
+  HazardMapViewWeb({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accidentMapController =
-        ref.read(accidentMapControllerProvider.notifier);
-    final data = ref.watch(accidentMapControllerProvider);
+        ref.read(hazardMapControllerProvider.notifier);
+    final data = ref.watch(hazardMapControllerProvider);
     return PageTemplateWidget(
       horizontalPaddingMultiplier: 20,
       verticalPaddingMultiplier: 20,
@@ -41,30 +40,31 @@ class AccidentMapViewWeb extends ConsumerWidget {
                     Row(
                       children: [
                         DropdownWidget(
-                          onChanged: (Object? accident) {
-                            if (accident != null) {
-                              accidentMapController
-                                  .selectAccident(accident as Accident);
+                          onChanged: (Object? accidentType) {
+                            if (accidentType != null) {
+                              accidentMapController.selectAccident(
+                                  accidentType as AccidentTypeModel);
                             }
                           },
                           hintText: "Filtrer par type d'accident",
                           initialValue: accidentMapState.selectedAccidentType,
                           items: accidentMapState.accidentsTypes.map(
-                            (Accident accident) {
+                            (AccidentTypeModel accidentType) {
                               return DropdownMenuItem(
-                                value: accident,
+                                value: accidentType,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     FaIcon(
                                       IconData(
-                                        int.parse(accident.iconCode!),
-                                        fontFamily: accident.iconFontFamily,
-                                        fontPackage: accident.iconFontPackage,
+                                        int.parse(accidentType.iconCode!),
+                                        fontFamily: accidentType.iconFontFamily,
+                                        fontPackage:
+                                            accidentType.iconFontPackage,
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(accident.name!),
+                                    Text(accidentType.name!),
                                   ],
                                 ),
                               );
@@ -99,7 +99,7 @@ class AccidentMapViewWeb extends ConsumerWidget {
                       controller: _searchController,
                     ),
                     CustomPrimaryButton(
-                      onPressed: () => context.go(Routes.accidentList),
+                      onPressed: () => context.go(Routes.accidentTypeList),
                       text: "Types d'accident",
                     ),
                   ],
@@ -117,6 +117,8 @@ class AccidentMapViewWeb extends ConsumerWidget {
                       child: FlutterMap(
                         mapController: mapController,
                         options: MapOptions(
+                          maxZoom: 18,
+                          minZoom: 3,
                           zoom: 5,
                           keepAlive: true,
                         ),
@@ -139,11 +141,12 @@ class AccidentMapViewWeb extends ConsumerWidget {
                                     message: hazard.description,
                                     child: FaIcon(
                                       IconData(
-                                        int.parse(hazard.accident.iconCode!),
+                                        int.parse(
+                                            hazard.accidentType.iconCode!),
                                         fontFamily:
-                                            hazard.accident.iconFontFamily,
+                                            hazard.accidentType.iconFontFamily,
                                         fontPackage:
-                                            hazard.accident.iconFontPackage,
+                                            hazard.accidentType.iconFontPackage,
                                       ),
                                       color: CustomColors.red,
                                     ),

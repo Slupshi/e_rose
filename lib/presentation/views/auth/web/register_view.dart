@@ -1,6 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/register_controller.dart';
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
@@ -133,8 +133,8 @@ class RegisterViewWeb extends ConsumerWidget {
                                 runSpacing: 5,
                                 spacing: 10,
                                 children: [
-                                  for (var accident
-                                      in registerState.selectedAccident) ...[
+                                  for (var accidentType in registerState
+                                      .selectedAccidentType) ...[
                                     Container(
                                       height: 30,
                                       decoration: BoxDecoration(
@@ -149,7 +149,7 @@ class RegisterViewWeb extends ConsumerWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              accident.name!,
+                                              accidentType.name!,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -159,7 +159,8 @@ class RegisterViewWeb extends ConsumerWidget {
                                               padding: EdgeInsets.zero,
                                               onPressed: () {
                                                 registerController
-                                                    .unSelectAccident(accident);
+                                                    .unSelectAccident(
+                                                        accidentType);
                                               },
                                               icon: const FaIcon(
                                                 FontAwesomeIcons.xmark,
@@ -176,30 +177,31 @@ class RegisterViewWeb extends ConsumerWidget {
                               ),
                               const SizedBox(height: 20),
                               DropdownWidget(
-                                onChanged: (Object? accident) {
-                                  if (accident != null) {
-                                    registerController
-                                        .selectAccident(accident as Accident);
+                                onChanged: (Object? accidentType) {
+                                  if (accidentType != null) {
+                                    registerController.selectAccident(
+                                        accidentType as AccidentTypeModel);
                                   }
                                 },
                                 hintText: "Sélectionnez un incident",
-                                items: registerState.accidents
-                                    .map((Accident accident) {
+                                items: registerState.accidentTypes
+                                    .map((AccidentTypeModel accidentType) {
                                   return DropdownMenuItem(
-                                    value: accident,
+                                    value: accidentType,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         FaIcon(
                                           IconData(
-                                            int.parse(accident.iconCode!),
-                                            fontFamily: accident.iconFontFamily,
+                                            int.parse(accidentType.iconCode!),
+                                            fontFamily:
+                                                accidentType.iconFontFamily,
                                             fontPackage:
-                                                accident.iconFontPackage,
+                                                accidentType.iconFontPackage,
                                           ),
                                         ),
                                         const SizedBox(width: 10),
-                                        Text(accident.name!),
+                                        Text(accidentType.name!),
                                       ],
                                     ),
                                   );
@@ -249,6 +251,8 @@ class RegisterViewWeb extends ConsumerWidget {
                             ),
                             child: FlutterMap(
                               options: MapOptions(
+                                maxZoom: 18,
+                                minZoom: 3,
                                 zoom: 5,
                                 onTap: (tapPosition, point) async {
                                   await registerController
@@ -282,11 +286,13 @@ class RegisterViewWeb extends ConsumerWidget {
                                 : null,
                           ),
                           SizedBox(
-                              height: MediaQuery.of(context).size.height / 45),
+                            height: MediaQuery.of(context).size.height / 45,
+                          ),
                           CustomPrimaryButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                if (registerState.selectedAccident.isEmpty) {
+                                if (registerState
+                                    .selectedAccidentType.isEmpty) {
                                   showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
@@ -317,7 +323,8 @@ class RegisterViewWeb extends ConsumerWidget {
                                         registerState.selectedPos!.latitude,
                                     longitude:
                                         registerState.selectedPos!.longitude,
-                                    accidents: registerState.selectedAccident,
+                                    accidentTypes:
+                                        registerState.selectedAccidentType,
                                   ),
                                 );
                                 if (isRegistered) {

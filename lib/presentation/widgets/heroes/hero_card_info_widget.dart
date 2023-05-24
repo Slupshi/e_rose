@@ -64,10 +64,10 @@ class HeroCardInfoWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: ListView.builder(
-                  itemCount: selectedHero.accidents!.length,
+                  itemCount: selectedHero.accidentTypes!.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) => Text(
-                    selectedHero.accidents![index].name!,
+                    selectedHero.accidentTypes![index].name!,
                     textScaleFactor: textScaleFactor(context),
                     style: const TextStyle(
                       fontSize: 10,
