@@ -16,7 +16,8 @@ class HeroModel with _$HeroModel {
     required double longitude,
     required double latitude,
     int? heroScore,
-    required List<AccidentTypeModel>? accidentTypes,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'accidents') required List<AccidentTypeModel>? accidentTypes,
   }) = _HeroModel;
 
   factory HeroModel.fromJson(Map<String, Object?> json) =>

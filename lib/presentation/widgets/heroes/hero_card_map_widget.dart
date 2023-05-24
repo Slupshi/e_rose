@@ -62,6 +62,8 @@ class HeroCardMapWidget extends StatelessWidget {
                 selectedHero.longitude,
               ),
               zoom: 5,
+              maxZoom: 18,
+              minZoom: 3,
             ),
             children: [
               TileLayer(

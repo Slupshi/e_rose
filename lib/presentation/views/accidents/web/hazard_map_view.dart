@@ -117,6 +117,8 @@ class HazardMapViewWeb extends ConsumerWidget {
                       child: FlutterMap(
                         mapController: mapController,
                         options: MapOptions(
+                          maxZoom: 18,
+                          minZoom: 3,
                           zoom: 5,
                           keepAlive: true,
                         ),

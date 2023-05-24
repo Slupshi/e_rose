@@ -251,6 +251,8 @@ class RegisterViewWeb extends ConsumerWidget {
                             ),
                             child: FlutterMap(
                               options: MapOptions(
+                                maxZoom: 18,
+                                minZoom: 3,
                                 zoom: 5,
                                 onTap: (tapPosition, point) async {
                                   await registerController
