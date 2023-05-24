@@ -6,6 +6,7 @@ import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:e_rose/services/api/dto/auth/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -321,7 +322,7 @@ class RegisterViewWeb extends ConsumerWidget {
                                 );
                                 if (isRegistered) {
                                   if (context.mounted) {
-                                    context.go("/");
+                                    context.go(Routes.homePage);
                                     showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(

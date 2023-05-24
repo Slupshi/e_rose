@@ -1,5 +1,6 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -44,7 +45,7 @@ class RegisterWidget extends ConsumerWidget {
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 45),
           CustomPrimaryButton(
-            onPressed: () => context.go("/register"),
+            onPressed: () => context.go(Routes.registerPage),
             text: "S'enregistrer",
           ),
         ],

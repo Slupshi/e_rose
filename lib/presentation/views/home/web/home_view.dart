@@ -1,6 +1,7 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/home/home_button_widget.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,12 +61,13 @@ class HomeViewWeb extends StatelessWidget {
                       Row(
                         children: [
                           HomeButtonWidget(
-                            onPressed: () => context.go("/declaration"),
+                            onPressed: () =>
+                                context.go(Routes.hazardDeclarationPage),
                             text: "Je déclare",
                           ),
                           const Spacer(flex: 1),
                           HomeButtonWidget(
-                            onPressed: () => context.go("/register"),
+                            onPressed: () => context.go(Routes.registerPage),
                             text: "Je m'enregistre",
                           ),
                         ],
@@ -81,99 +83,5 @@ class HomeViewWeb extends StatelessWidget {
         ],
       ),
     );
-    // return Column(
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     const Spacer(flex: 3),
-    //     Flexible(
-    //       flex: 7,
-    //       child: Row(
-    //         children: [
-    //           const Spacer(flex: 1),
-    //           Flexible(
-    //             flex: 5,
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Text(
-    //                   "Se sentir en sécurité",
-    //                   textScaleFactor: textScaleFactor(context),
-    //                   style: const TextStyle(
-    //                     fontSize: 30,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10),
-    //                 Text(
-    //                   "Si vous appercevez un incident, déclarez le au plus vite !",
-    //                   textScaleFactor: textScaleFactor(context),
-    //                   style: const TextStyle(
-    //                     fontSize: 10,
-    //                     fontStyle: FontStyle.italic,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 20),
-    //                 Row(
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     CustomPrimaryButton(
-    //                       onPressed: () => context.go("/declaration"),
-    //                       text: "Je le déclare",
-    //                       height: 50,
-    //                       borderRadius: 100,
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           const Spacer(flex: 2)
-    //         ],
-    //       ),
-    //     ),
-    //     const Spacer(flex: 1),
-    //     Flexible(
-    //       flex: 7,
-    //       child: Row(
-    //         children: [
-    //           const Spacer(flex: 1),
-    //           Flexible(
-    //             flex: 5,
-    //             child: Column(
-    //               children: [
-    //                 Text(
-    //                   "Protéger",
-    //                   textScaleFactor: textScaleFactor(context),
-    //                   style: const TextStyle(
-    //                     fontSize: 30,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10),
-    //                 Text(
-    //                   "Prennez votre courage à deux mains et enregistrez vous !",
-    //                   textScaleFactor: textScaleFactor(context),
-    //                   style: const TextStyle(
-    //                     fontSize: 10,
-    //                     fontStyle: FontStyle.italic,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 20),
-    //                 CustomPrimaryButton(
-    //                   onPressed: () => context.go("/declaration"),
-    //                   text: "Je m'enregistre",
-    //                   height: 50,
-    //                   borderRadius: 100,
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           const Spacer(flex: 2)
-    //         ],
-    //       ),
-    //     ),
-    //     const Spacer(flex: 4),
-    //   ],
-    // );
   }
 }

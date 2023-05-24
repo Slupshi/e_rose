@@ -2,7 +2,8 @@ import 'package:e_rose/main.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_button_widget.dart';
-import 'package:e_rose/router.dart';
+import 'package:e_rose/router/router.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +37,7 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
           backgroundColor: CustomColors.black,
           leadingWidth: 200,
           leading: InkWell(
-            onTap: () => context.go("/"),
+            onTap: () => context.go(Routes.homePage),
             mouseCursor: SystemMouseCursors.click,
             child: const Center(
               child: Text(
@@ -58,12 +59,12 @@ class _WebNavigationState extends State<WebNavigation> with NavigationBase {
                   final token = prefs.getString("token");
                   if (token == null || token == "") {
                     if (context.mounted) {
-                      context.go("/auth");
+                      context.go(Routes.authPage);
                     }
                     return;
                   }
                   if (context.mounted) {
-                    context.go("/profile");
+                    context.go(Routes.profilePage);
                   }
                 },
                 icon: const Icon(
