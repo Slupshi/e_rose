@@ -13,70 +13,73 @@ class HeroCardInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _RichtTextHeroCard(
-          field: "Prénom",
-          value: selectedHero.firstName,
-        ),
-        _RichtTextHeroCard(
-          field: "Nom",
-          value: selectedHero.lastName,
-        ),
-        InkWell(
-          mouseCursor: SystemMouseCursors.click,
-          onTap: () async {
-            final Uri url = Uri(scheme: 'mailto', path: selectedHero.email);
-            await launchUrl(url);
-          },
-          child: _RichtTextHeroCard(
-            field: "Mail",
-            value: selectedHero.email,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _RichtTextHeroCard(
+            field: "Prénom",
+            value: selectedHero.firstName,
           ),
-        ),
-        InkWell(
-          mouseCursor: SystemMouseCursors.click,
-          onTap: () async {
-            final Uri url = Uri(scheme: 'tel', path: selectedHero.phoneNumber);
-            await launchUrl(url);
-          },
-          child: _RichtTextHeroCard(
-            field: "Téléphone",
-            value: selectedHero.phoneNumber,
+          _RichtTextHeroCard(
+            field: "Nom",
+            value: selectedHero.lastName,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-            right: 20,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: CustomColors.white,
-                width: 5,
-              ),
+          InkWell(
+            mouseCursor: SystemMouseCursors.click,
+            onTap: () async {
+              final Uri url = Uri(scheme: 'mailto', path: selectedHero.email);
+              await launchUrl(url);
+            },
+            child: _RichtTextHeroCard(
+              field: "Mail",
+              value: selectedHero.email,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: ListView.builder(
-                itemCount: selectedHero.accidents!.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Text(
-                  selectedHero.accidents![index].name!,
-                  textScaleFactor: textScaleFactor(context),
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.italic,
+          ),
+          InkWell(
+            mouseCursor: SystemMouseCursors.click,
+            onTap: () async {
+              final Uri url =
+                  Uri(scheme: 'tel', path: selectedHero.phoneNumber);
+              await launchUrl(url);
+            },
+            child: _RichtTextHeroCard(
+              field: "Téléphone",
+              value: selectedHero.phoneNumber,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 20,
+              right: 20,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: CustomColors.white,
+                  width: 5,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: ListView.builder(
+                  itemCount: selectedHero.accidents!.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Text(
+                    selectedHero.accidents![index].name!,
+                    textScaleFactor: textScaleFactor(context),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

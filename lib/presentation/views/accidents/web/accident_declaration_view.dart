@@ -1,5 +1,6 @@
 import 'package:e_rose/controllers/declaration_controller.dart';
 import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/declaration.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/declaration_popup.dart';
@@ -7,15 +8,16 @@ import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
 import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
+import 'package:e_rose/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
 class AccidentDeclarationViewWeb extends ConsumerWidget {
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController cityNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final MapController mapController = MapController();
   AccidentDeclarationViewWeb({super.key});
 
   @override
@@ -26,8 +28,23 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
     return PageTemplateWidget(
       child: data.when(
         data: (declarationState) {
-          final TextEditingController addressController =
-              TextEditingController(text: declarationState.selectedAddress);
+          final TextEditingController addressController = TextEditingController(
+            text: GeoLocatorService.displayAddress(
+              declarationState.selectedAddress,
+            ),
+          );
+          final TextEditingController cityNameController =
+              TextEditingController(
+            text: declarationState.selectedAddress?.town ??
+                declarationState.selectedAddress?.city,
+          );
+          final TextEditingController descriptionController =
+              TextEditingController(
+            text: _getDescriptionInitialValue(
+              declarationState.selectedAddress,
+              declarationState.selectedAccident,
+            ),
+          );
           return Row(
             children: [
               Expanded(
@@ -181,6 +198,7 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                             ),
                           ),
                           child: FlutterMap(
+                            mapController: mapController,
                             options: MapOptions(
                               zoom: 5,
                               onTap: (tapPosition, point) async {
@@ -189,6 +207,19 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                               },
                             ),
                             children: [
+                              // MarkerLayer(
+                              //   markers: [
+                              //     if (declarationState.selectedPos != null) ...[
+                              //       Marker(
+                              //         point: declarationState.selectedPos!,
+                              //         builder: (context) => const FaIcon(
+                              //           FontAwesomeIcons.locationDot,
+                              //           color: CustomColors.red,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ],
+                              // ),
                               TileLayer(
                                 urlTemplate:
                                     'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -198,9 +229,21 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height / 45),
+                          height: MediaQuery.of(context).size.height / 45,
+                        ),
                         CustomPrimaryButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final userPosition =
+                                await GeoLocatorService.determinePosition();
+                            if (userPosition != null) {
+                              final pos = LatLng(
+                                userPosition.latitude,
+                                userPosition.longitude,
+                              );
+                              mapController.move(pos, 8);
+                              declarationController.selectMapPoint(pos);
+                            }
+                          },
                           text: "Votre position",
                         ),
                       ],
@@ -216,5 +259,9 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
         error: (error, stackTrace) => const SizedBox(),
       ),
     );
+  }
+
+  String? _getDescriptionInitialValue(Address? address, Accident? accident) {
+    return "${accident?.name ?? "Situation inconnue"} situé(e) à ${address?.town ?? (address?.city ?? "Ville inconnue")}";
   }
 }

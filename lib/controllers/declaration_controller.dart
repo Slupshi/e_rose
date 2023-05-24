@@ -1,4 +1,5 @@
 import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/declaration.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/models/repositories/accident_repository.dart';
@@ -20,7 +21,7 @@ class DeclarationState with _$DeclarationState {
     required List<HeroModel> possibleHeroes,
     Accident? selectedAccident,
     LatLng? selectedPos,
-    String? selectedAddress,
+    Address? selectedAddress,
   }) = _DeclarationState;
 }
 
@@ -52,10 +53,12 @@ class DeclarationController extends _$DeclarationController {
 
   Future<void> selectMapPoint(LatLng pos) async {
     final address = await GeoLocatorService.getAddressFromPos(pos);
-    state = AsyncData(state.value!.copyWith(
-      selectedPos: pos,
-      selectedAddress: address,
-    ));
+    state = AsyncData(
+      state.value!.copyWith(
+        selectedPos: pos,
+        selectedAddress: address,
+      ),
+    );
   }
 
   Future<bool> declareAccident(DeclarationModel model) async {
