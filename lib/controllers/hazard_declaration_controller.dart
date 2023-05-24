@@ -78,11 +78,11 @@ class HazardDeclarationController extends _$HazardDeclarationController {
     }
   }
 
-  double? getDistance(HeroModel hero) {
-    if (state.value?.selectedPos != null) {
+  double? getDistance(HeroModel hero, LatLng? pos) {
+    if (pos != null) {
       final double distance = GeoLocatorService.calculateDistance(
-        state.value!.selectedPos!.latitude,
-        state.value!.selectedPos!.longitude,
+        pos.latitude,
+        pos.longitude,
         hero.latitude,
         hero.longitude,
       );

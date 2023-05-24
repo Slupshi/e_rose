@@ -1,8 +1,10 @@
 import 'package:e_rose/controllers/hazard_map_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_searchbar.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
+import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:e_rose/router/routes.dart';
@@ -22,8 +24,7 @@ class HazardMapViewWeb extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final accidentMapController =
-        ref.read(hazardMapControllerProvider.notifier);
+    final hazardMapController = ref.read(hazardMapControllerProvider.notifier);
     final data = ref.watch(hazardMapControllerProvider);
 
     return PageTemplateWidget(
@@ -54,7 +55,7 @@ class HazardMapViewWeb extends ConsumerWidget {
                           DropdownWidget(
                             onChanged: (Object? accidentType) {
                               if (accidentType != null) {
-                                accidentMapController.selectAccident(
+                                hazardMapController.selectAccident(
                                     accidentType as AccidentTypeModel);
                               }
                             },
@@ -93,7 +94,7 @@ class HazardMapViewWeb extends ConsumerWidget {
                             child: IconButton(
                               padding: EdgeInsets.zero,
                               onPressed: () =>
-                                  accidentMapController.resetAccidentFilter(),
+                                  hazardMapController.resetAccidentFilter(),
                               icon: const FaIcon(
                                 FontAwesomeIcons.xmark,
                                 color: CustomColors.white,
@@ -105,10 +106,10 @@ class HazardMapViewWeb extends ConsumerWidget {
                       HazardSearchBarWidget(
                         resetOnPressed: () {
                           _searchController.text = "";
-                          accidentMapController.resetQueryFilter();
+                          hazardMapController.resetQueryFilter();
                         },
-                        searchOnPressed: () => accidentMapController
-                            .search(_searchController.text),
+                        searchOnPressed: () =>
+                            hazardMapController.search(_searchController.text),
                         controller: _searchController,
                       ),
                       CustomPrimaryButton(
@@ -133,7 +134,7 @@ class HazardMapViewWeb extends ConsumerWidget {
                             maxZoom: 18,
                             minZoom: 3,
                             zoom: 5,
-                            keepAlive: true,
+                            //keepAlive: true,
                           ),
                           children: [
                             TileLayer(
@@ -150,20 +151,34 @@ class HazardMapViewWeb extends ConsumerWidget {
                                       hazard.latitude,
                                       hazard.longitude,
                                     ),
-                                    builder: (context) => Tooltip(
-                                      textAlign: TextAlign.center,
-                                      message:
-                                          "${hazard.description}${hazard.createdAt != null ? "\n ${DateFormat('yMMMd').format(hazard.createdAt!)}, ${DateFormat('jm').format(hazard.createdAt!)}" : ""}",
-                                      child: FaIcon(
-                                        IconData(
-                                          int.parse(
-                                              hazard.accidentType.iconCode!),
-                                          fontFamily: hazard
-                                              .accidentType.iconFontFamily,
-                                          fontPackage: hazard
-                                              .accidentType.iconFontPackage,
-                                        ),
-                                        color: CustomColors.red,
+                                    builder: (context) => InkWell(
+                                      mouseCursor: SystemMouseCursors.click,
+                                      onTap: () async {
+                                        final heroes = await hazardMapController
+                                            .getHazardHeroes(
+                                                hazard.accidentType);
+                                        if (context.mounted) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => HazardHeroesPopup(
+                                              isConfirmation: false,
+                                              heroes: heroes,
+                                              hazardPos: LatLng(
+                                                hazard.latitude,
+                                                hazard.longitude,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: MapLocationDotWidget(
+                                        tooltip:
+                                            "${hazard.description}${hazard.createdAt != null ? "\n ${DateFormat('yMMMd').format(hazard.createdAt!)}, ${DateFormat('jm').format(hazard.createdAt!)}" : ""}",
+                                        iconCode: hazard.accidentType.iconCode,
+                                        iconFontFamily:
+                                            hazard.accidentType.iconFontFamily,
+                                        iconFontPackage:
+                                            hazard.accidentType.iconFontPackage,
                                       ),
                                     ),
                                   ),
@@ -181,6 +196,7 @@ class HazardMapViewWeb extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(10),
                           elevation: 10,
                           child: IconButton(
+                            tooltip: "Centrer sur votre position",
                             onPressed: () async {
                               final userPosition =
                                   await GeoLocatorService.determinePosition();

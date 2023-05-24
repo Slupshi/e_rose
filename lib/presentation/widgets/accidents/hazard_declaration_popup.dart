@@ -3,12 +3,17 @@ import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 
-class HazardDeclarationConfirmationPopup extends ConsumerWidget {
+class HazardHeroesPopup extends ConsumerWidget {
   final List<HeroModel> heroes;
-  const HazardDeclarationConfirmationPopup({
+  final LatLng hazardPos;
+  final bool isConfirmation;
+  const HazardHeroesPopup({
     super.key,
     required this.heroes,
+    required this.hazardPos,
+    this.isConfirmation = true,
   });
 
   @override
@@ -19,12 +24,12 @@ class HazardDeclarationConfirmationPopup extends ConsumerWidget {
     List<HeroModel> nearestHeroes = [];
     if (orderedHeroes.isNotEmpty) {
       orderedHeroes.sort((a, b) => declarationController
-          .getDistance(a)!
-          .compareTo(declarationController.getDistance(b)!));
+          .getDistance(a, hazardPos)!
+          .compareTo(declarationController.getDistance(b, hazardPos)!));
       nearestHeroes = orderedHeroes
           .where((hero) =>
               //declarationController.getDistance(hero) != null &&
-              declarationController.getDistance(hero)! < 50)
+              declarationController.getDistance(hero, hazardPos)! < 50)
           .toList();
       for (var hero in nearestHeroes) {
         orderedHeroes.remove(hero);
@@ -32,14 +37,16 @@ class HazardDeclarationConfirmationPopup extends ConsumerWidget {
     }
 
     return AlertDialog(
-      title: const Text("Déclaration effectuée !"),
+      title: isConfirmation ? const Text("Déclaration effectuée !") : null,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "Votre déclaration a été effectué avec succès.",
-          ),
-          const SizedBox(height: 20),
+          if (isConfirmation) ...[
+            const Text(
+              "Votre déclaration a été effectué avec succès.",
+            ),
+            const SizedBox(height: 20),
+          ],
           heroes.isNotEmpty
               ? Column(
                   mainAxisSize: MainAxisSize.min,
@@ -75,10 +82,12 @@ class HazardDeclarationConfirmationPopup extends ConsumerWidget {
                                     ),
                                     Text(
                                       declarationController.getDistance(
-                                                  nearestHeroes[index]) ==
+                                                nearestHeroes[index],
+                                                hazardPos,
+                                              ) ==
                                               null
                                           ? "N/A"
-                                          : "${declarationController.getDistance(nearestHeroes[index])}Km",
+                                          : "${declarationController.getDistance(nearestHeroes[index], hazardPos)}Km",
                                     ),
                                     Text(
                                       "Tel : ${nearestHeroes[index].phoneNumber}",
@@ -114,10 +123,12 @@ class HazardDeclarationConfirmationPopup extends ConsumerWidget {
                                     ),
                                     Text(
                                       declarationController.getDistance(
-                                                  orderedHeroes[index]) ==
+                                                orderedHeroes[index],
+                                                hazardPos,
+                                              ) ==
                                               null
                                           ? "N/A"
-                                          : "${declarationController.getDistance(orderedHeroes[index])}Km",
+                                          : "${declarationController.getDistance(orderedHeroes[index], hazardPos)}Km",
                                     ),
                                     Text(
                                       "Tel : ${orderedHeroes[index].phoneNumber}",

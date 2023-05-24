@@ -5,6 +5,7 @@ import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
+import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
@@ -188,10 +189,11 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                                 if (!isError && context.mounted) {
                                   showDialog(
                                     context: context,
-                                    builder: (context) =>
-                                        HazardDeclarationConfirmationPopup(
+                                    builder: (context) => HazardHeroesPopup(
                                       heroes:
                                           hazardDeclarationState.possibleHeroes,
+                                      hazardPos:
+                                          hazardDeclarationState.selectedPos!,
                                     ),
                                   );
                                 }
@@ -236,23 +238,25 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                               },
                             ),
                             children: [
-                              // MarkerLayer(
-                              //   markers: [
-                              //     if (declarationState.selectedPos != null) ...[
-                              //       Marker(
-                              //         point: declarationState.selectedPos!,
-                              //         builder: (context) => const FaIcon(
-                              //           FontAwesomeIcons.locationDot,
-                              //           color: CustomColors.red,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ],
-                              // ),
                               TileLayer(
                                 urlTemplate:
                                     'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                 userAgentPackageName: 'com.example.app',
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  if (hazardDeclarationState.selectedPos !=
+                                      null) ...[
+                                    Marker(
+                                      point:
+                                          hazardDeclarationState.selectedPos!,
+                                      builder: (context) =>
+                                          const MapLocationDotWidget(
+                                        tooltip: "",
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ],
                           ),
