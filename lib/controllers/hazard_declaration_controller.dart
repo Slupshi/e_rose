@@ -63,6 +63,12 @@ class HazardDeclarationController extends _$HazardDeclarationController {
     );
   }
 
+  Future<LatLng?> selectPointFromAddress(String address) async {
+    final pos = await GeoLocatorService.getPosFromAddress(address);
+    state = AsyncData(state.value!.copyWith(selectedPos: pos));
+    return pos;
+  }
+
   Future<bool> declareHazard(HazardModel model) async {
     try {
       await ref.read(hazardRepositoryProvider).postHazard(model);
@@ -72,11 +78,11 @@ class HazardDeclarationController extends _$HazardDeclarationController {
     }
   }
 
-  double? getDistance(HeroModel hero) {
-    if (state.value?.selectedPos != null) {
+  double? getDistance(HeroModel hero, LatLng? pos) {
+    if (pos != null) {
       final double distance = GeoLocatorService.calculateDistance(
-        state.value!.selectedPos!.latitude,
-        state.value!.selectedPos!.longitude,
+        pos.latitude,
+        pos.longitude,
         hero.latitude,
         hero.longitude,
       );

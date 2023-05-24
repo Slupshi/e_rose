@@ -60,6 +60,21 @@ class GeoLocatorService {
     // return 12742 * asin(sqrt(a));
   }
 
+  static Future<LatLng?> getPosFromAddress(String address) async {
+    try {
+      final Dio dio = Dio();
+      final res = await dio.get(
+          "https://nominatim.openstreetmap.org/search?q=${address.replaceAll(' ', '+')}&format=json");
+      final LatLng pos = LatLng(
+        double.parse(res.data[0]["lat"]),
+        double.parse(res.data[0]["lon"]),
+      );
+      return pos;
+    } catch (ex) {
+      return null;
+    }
+  }
+
   static Future<Address> getAddressFromPos(LatLng pos) async {
     final Dio dio = Dio();
     final res = await dio.get(

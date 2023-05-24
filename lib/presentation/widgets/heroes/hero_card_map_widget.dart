@@ -1,9 +1,9 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -77,9 +77,8 @@ class HeroCardMapWidget extends StatelessWidget {
                       selectedHero.latitude,
                       selectedHero.longitude,
                     ),
-                    builder: (context) => const FaIcon(
-                      FontAwesomeIcons.locationDot,
-                      color: Colors.red,
+                    builder: (context) => MapLocationDotWidget(
+                      tooltip: selectedHero.heroName,
                     ),
                   ),
                   if (userPosition != null) ...[
@@ -88,9 +87,9 @@ class HeroCardMapWidget extends StatelessWidget {
                         userPosition!.latitude,
                         userPosition!.longitude,
                       ),
-                      builder: (context) => const FaIcon(
-                        FontAwesomeIcons.locationDot,
-                        color: Colors.blue,
+                      builder: (context) => const MapLocationDotWidget(
+                        color: CustomColors.lightBlue,
+                        tooltip: "Vous",
                       ),
                     ),
                   ],
@@ -111,7 +110,7 @@ class HeroCardMapWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Material(
-                    color: Colors.red,
+                    color: CustomColors.red,
                     child: SizedBox.square(
                       dimension: constraints.maxHeight / 32,
                     ),
@@ -132,7 +131,7 @@ class HeroCardMapWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Material(
-                      color: Colors.blue,
+                      color: CustomColors.lightBlue,
                       child: SizedBox.square(
                         dimension: constraints.maxHeight / 32,
                       ),

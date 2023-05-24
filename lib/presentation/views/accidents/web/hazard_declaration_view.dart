@@ -5,6 +5,7 @@ import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
+import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
@@ -22,27 +23,27 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HazardDeclarationController declarationController =
+    final HazardDeclarationController hazardDeclarationController =
         ref.read(hazardDeclarationControllerProvider.notifier);
     final data = ref.watch(hazardDeclarationControllerProvider);
     return PageTemplateWidget(
       child: data.when(
-        data: (declarationState) {
+        data: (hazardDeclarationState) {
           final TextEditingController addressController = TextEditingController(
             text: GeoLocatorService.displayAddress(
-              declarationState.selectedAddress,
+              hazardDeclarationState.selectedAddress,
             ),
           );
           final TextEditingController cityNameController =
               TextEditingController(
-            text: declarationState.selectedAddress?.town ??
-                declarationState.selectedAddress?.city,
+            text: hazardDeclarationState.selectedAddress?.town ??
+                hazardDeclarationState.selectedAddress?.city,
           );
           final TextEditingController descriptionController =
               TextEditingController(
             text: _getDescriptionInitialValue(
-              declarationState.selectedAddress,
-              declarationState.selectedAccidentType,
+              hazardDeclarationState.selectedAddress,
+              hazardDeclarationState.selectedAccidentType,
             ),
           );
           return Row(
@@ -76,7 +77,7 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                             ),
                             icon: const Icon(Icons.keyboard_arrow_down),
                             dropdownColor: CustomColors.white,
-                            items: declarationState.accidentTypes
+                            items: hazardDeclarationState.accidentTypes
                                 .map((AccidentTypeModel accidentType) {
                               return DropdownMenuItem(
                                 value: accidentType,
@@ -99,7 +100,7 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                             }).toList(),
                             onChanged: (Object? accidentType) {
                               if (accidentType != null) {
-                                declarationController.selectAccidentType(
+                                hazardDeclarationController.selectAccidentType(
                                     accidentType as AccidentTypeModel);
                               }
                             },
@@ -119,14 +120,37 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          CustomEntryWidget(
-                            textEditingController: addressController,
-                            labelText: "Adresse",
-                            hintText: "Cliquez sur la carte",
-                            validator: (value) => value == null ||
-                                    declarationState.selectedPos == null
-                                ? "Il vous faut une adresse"
-                                : null,
+                          Stack(
+                            children: [
+                              CustomEntryWidget(
+                                textEditingController: addressController,
+                                labelText: "Adresse",
+                                hintText: "Cliquez sur la carte",
+                                validator: (value) => value == null ||
+                                        hazardDeclarationState.selectedPos ==
+                                            null
+                                    ? "Il vous faut une adresse"
+                                    : null,
+                              ),
+                              Positioned(
+                                right: 10,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    final pos =
+                                        await hazardDeclarationController
+                                            .selectPointFromAddress(
+                                                addressController.text);
+                                    if (pos != null) {
+                                      mapController.move(pos, 15);
+                                    }
+                                  },
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.magnifyingGlass,
+                                    color: CustomColors.lighGrey,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
@@ -144,29 +168,32 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                           CustomPrimaryButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate() &&
-                                  declarationState.selectedAccidentType !=
+                                  hazardDeclarationState.selectedAccidentType !=
                                       null) {
                                 final isError =
-                                    !await declarationController.declareHazard(
+                                    !await hazardDeclarationController
+                                        .declareHazard(
                                   HazardModel(
                                     cityName: addressController.text
                                         .split(", ")
                                         .first,
                                     description: descriptionController.text,
-                                    accidentType:
-                                        declarationState.selectedAccidentType!,
-                                    latitude:
-                                        declarationState.selectedPos!.latitude,
-                                    longitude:
-                                        declarationState.selectedPos!.longitude,
+                                    accidentType: hazardDeclarationState
+                                        .selectedAccidentType!,
+                                    latitude: hazardDeclarationState
+                                        .selectedPos!.latitude,
+                                    longitude: hazardDeclarationState
+                                        .selectedPos!.longitude,
                                   ),
                                 );
                                 if (!isError && context.mounted) {
                                   showDialog(
                                     context: context,
-                                    builder: (context) =>
-                                        HazardDeclarationConfirmationPopup(
-                                      heroes: declarationState.possibleHeroes,
+                                    builder: (context) => HazardHeroesPopup(
+                                      heroes:
+                                          hazardDeclarationState.possibleHeroes,
+                                      hazardPos:
+                                          hazardDeclarationState.selectedPos!,
                                     ),
                                   );
                                 }
@@ -206,28 +233,30 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                               minZoom: 3,
                               zoom: 5,
                               onTap: (tapPosition, point) async {
-                                await declarationController
+                                await hazardDeclarationController
                                     .selectMapPoint(point);
                               },
                             ),
                             children: [
-                              // MarkerLayer(
-                              //   markers: [
-                              //     if (declarationState.selectedPos != null) ...[
-                              //       Marker(
-                              //         point: declarationState.selectedPos!,
-                              //         builder: (context) => const FaIcon(
-                              //           FontAwesomeIcons.locationDot,
-                              //           color: CustomColors.red,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ],
-                              // ),
                               TileLayer(
                                 urlTemplate:
                                     'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                 userAgentPackageName: 'com.example.app',
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  if (hazardDeclarationState.selectedPos !=
+                                      null) ...[
+                                    Marker(
+                                      point:
+                                          hazardDeclarationState.selectedPos!,
+                                      builder: (context) =>
+                                          const MapLocationDotWidget(
+                                        tooltip: "",
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ],
                           ),
@@ -244,8 +273,8 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                                 userPosition.latitude,
                                 userPosition.longitude,
                               );
-                              mapController.move(pos, 8);
-                              declarationController.selectMapPoint(pos);
+                              mapController.move(pos, 13);
+                              hazardDeclarationController.selectMapPoint(pos);
                             }
                           },
                           text: "Votre position",

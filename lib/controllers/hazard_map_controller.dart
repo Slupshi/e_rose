@@ -1,7 +1,9 @@
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/hazard_model.dart';
+import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
 import 'package:e_rose/models/repositories/hazard_repository.dart';
+import 'package:e_rose/models/repositories/hero_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -132,5 +134,13 @@ class HazardMapController extends _$HazardMapController {
         displayedHazards: newDisplayedHazards,
       ),
     );
+  }
+
+  Future<List<HeroModel>> getHazardHeroes(
+      AccidentTypeModel accidentType) async {
+    return (await ref.read(heroRepositoryProvider).getHeroes())
+        .where((hero) => hero.accidentTypes!.any(
+            (heroAccidentType) => heroAccidentType.name == accidentType.name))
+        .toList();
   }
 }
