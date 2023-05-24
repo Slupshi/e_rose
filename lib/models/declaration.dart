@@ -1,4 +1,4 @@
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'declaration.g.dart';
@@ -9,7 +9,7 @@ class DeclarationModel with _$DeclarationModel {
   const factory DeclarationModel({
     required String cityName,
     required String description,
-    required Accident accident,
+    required AccidentTypeModel accidentType,
     required double latitude,
     required double longitude,
   }) = _DeclarationModel;

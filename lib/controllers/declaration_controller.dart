@@ -1,8 +1,8 @@
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/declaration.dart';
 import 'package:e_rose/models/hero.dart';
-import 'package:e_rose/models/repositories/accident_repository.dart';
+import 'package:e_rose/models/repositories/accident_type_repository.dart';
 import 'package:e_rose/models/repositories/declaration_repository.dart';
 import 'package:e_rose/models/repositories/hero_repository.dart';
 import 'package:e_rose/services/geolocator_service.dart';
@@ -16,10 +16,10 @@ part 'declaration_controller.freezed.dart';
 @freezed
 class DeclarationState with _$DeclarationState {
   const factory DeclarationState({
-    required List<Accident> accidents,
+    required List<AccidentTypeModel> accidentTypes,
     required List<HeroModel> heroes,
     required List<HeroModel> possibleHeroes,
-    Accident? selectedAccident,
+    AccidentTypeModel? selectedAccidentType,
     LatLng? selectedPos,
     Address? selectedAddress,
   }) = _DeclarationState;
@@ -29,24 +29,25 @@ class DeclarationState with _$DeclarationState {
 class DeclarationController extends _$DeclarationController {
   @override
   FutureOr<DeclarationState> build() async {
-    final accidents = await ref.read(accidentRepositoryProvider).getAccidents();
-    accidents.sort((a, b) => a.id.compareTo(b.id));
+    final accidentTypes =
+        await ref.read(accidentTypeRepositoryProvider).getAccidents();
+    accidentTypes.sort((a, b) => a.id.compareTo(b.id));
     final heroes = await ref.read(heroRepositoryProvider).getHeroes();
     if (state.value?.selectedPos != null) {}
     return DeclarationState(
-      accidents: accidents,
+      accidentTypes: accidentTypes,
       heroes: heroes,
       possibleHeroes: heroes,
     );
   }
 
-  void selectAccident(Accident accident) =>
+  void selectAccident(AccidentTypeModel accidentType) =>
       state = AsyncData(state.value!.copyWith(
-        selectedAccident: accident,
+        selectedAccidentType: accidentType,
         possibleHeroes: [
           ...state.value!.heroes
-              .where((hero) => hero.accidents!
-                  .any((heroAccident) => heroAccident.name == accident.name))
+              .where((hero) => hero.accidentTypes!.any((heroAccidentType) =>
+                  heroAccidentType.name == accidentType.name))
               .toList()
         ],
       ));

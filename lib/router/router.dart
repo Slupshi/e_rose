@@ -1,6 +1,6 @@
 import 'package:e_rose/presentation/views/accidents/web/accident_declaration_view.dart';
 import 'package:e_rose/presentation/views/accidents/web/accident_map_view.dart';
-import 'package:e_rose/presentation/views/accidents/web/accidents_list_view.dart';
+import 'package:e_rose/presentation/views/accidents/web/accident_type_list_view.dart';
 import 'package:e_rose/presentation/views/auth/web/auth_view.dart';
 import 'package:e_rose/presentation/views/heroes/web/profile_view.dart';
 import 'package:e_rose/presentation/views/auth/web/register_view.dart';
@@ -75,9 +75,9 @@ final GoRouter router = GoRouter(
           ),
         ),
         GoRoute(
-          path: Routes.accidentList,
+          path: Routes.accidentTypeList,
           pageBuilder: (context, state) => NoTransitionPage(
-            child: _child(webChild: const AccidentsListViewWeb()),
+            child: _child(webChild: const AccidentTypeListViewWeb()),
           ),
         ),
       ],

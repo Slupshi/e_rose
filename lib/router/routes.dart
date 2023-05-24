@@ -11,14 +11,14 @@ class Routes {
   /// ### '/register'
   static const String registerPage = "/register";
 
-  /// ### '/accidentstypes'
-  static const String accidentList = "/accidentstypes";
+  /// ### '/accidenttypes'
+  static const String accidentTypeList = "/accidenttypes";
 
   /// ### '/heroes'
   static const String heroesListPage = "/heroes";
 
-  /// ### '/accidents'
-  static const String hazardMapPage = "/accidents";
+  /// ### '/hazards'
+  static const String hazardMapPage = "/hazards";
 
   /// ### '/declaration'
   static const String hazardDeclarationPage = "/declaration";

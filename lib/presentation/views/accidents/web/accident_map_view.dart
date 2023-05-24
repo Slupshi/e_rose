@@ -1,5 +1,5 @@
 import 'package:e_rose/controllers/accidents_map_controller.dart';
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_searchbar.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
@@ -41,30 +41,31 @@ class AccidentMapViewWeb extends ConsumerWidget {
                     Row(
                       children: [
                         DropdownWidget(
-                          onChanged: (Object? accident) {
-                            if (accident != null) {
-                              accidentMapController
-                                  .selectAccident(accident as Accident);
+                          onChanged: (Object? accidentType) {
+                            if (accidentType != null) {
+                              accidentMapController.selectAccident(
+                                  accidentType as AccidentTypeModel);
                             }
                           },
                           hintText: "Filtrer par type d'accident",
                           initialValue: accidentMapState.selectedAccidentType,
                           items: accidentMapState.accidentsTypes.map(
-                            (Accident accident) {
+                            (AccidentTypeModel accidentType) {
                               return DropdownMenuItem(
-                                value: accident,
+                                value: accidentType,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     FaIcon(
                                       IconData(
-                                        int.parse(accident.iconCode!),
-                                        fontFamily: accident.iconFontFamily,
-                                        fontPackage: accident.iconFontPackage,
+                                        int.parse(accidentType.iconCode!),
+                                        fontFamily: accidentType.iconFontFamily,
+                                        fontPackage:
+                                            accidentType.iconFontPackage,
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(accident.name!),
+                                    Text(accidentType.name!),
                                   ],
                                 ),
                               );
@@ -99,7 +100,7 @@ class AccidentMapViewWeb extends ConsumerWidget {
                       controller: _searchController,
                     ),
                     CustomPrimaryButton(
-                      onPressed: () => context.go(Routes.accidentList),
+                      onPressed: () => context.go(Routes.accidentTypeList),
                       text: "Types d'accident",
                     ),
                   ],
@@ -139,11 +140,12 @@ class AccidentMapViewWeb extends ConsumerWidget {
                                     message: hazard.description,
                                     child: FaIcon(
                                       IconData(
-                                        int.parse(hazard.accident.iconCode!),
+                                        int.parse(
+                                            hazard.accidentType.iconCode!),
                                         fontFamily:
-                                            hazard.accident.iconFontFamily,
+                                            hazard.accidentType.iconFontFamily,
                                         fontPackage:
-                                            hazard.accident.iconFontPackage,
+                                            hazard.accidentType.iconFontPackage,
                                       ),
                                       color: CustomColors.red,
                                     ),

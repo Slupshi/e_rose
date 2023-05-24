@@ -1,5 +1,5 @@
 import 'package:e_rose/controllers/declaration_controller.dart';
-import 'package:e_rose/models/accident.dart';
+import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/declaration.dart';
 import 'package:e_rose/presentation/common/colors.dart';
@@ -42,7 +42,7 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
               TextEditingController(
             text: _getDescriptionInitialValue(
               declarationState.selectedAddress,
-              declarationState.selectedAccident,
+              declarationState.selectedAccidentType,
             ),
           );
           return Row(
@@ -76,30 +76,31 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                             ),
                             icon: const Icon(Icons.keyboard_arrow_down),
                             dropdownColor: CustomColors.white,
-                            items: declarationState.accidents
-                                .map((Accident accident) {
+                            items: declarationState.accidentTypes
+                                .map((AccidentTypeModel accidentType) {
                               return DropdownMenuItem(
-                                value: accident,
+                                value: accidentType,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     FaIcon(
                                       IconData(
-                                        int.parse(accident.iconCode!),
-                                        fontFamily: accident.iconFontFamily,
-                                        fontPackage: accident.iconFontPackage,
+                                        int.parse(accidentType.iconCode!),
+                                        fontFamily: accidentType.iconFontFamily,
+                                        fontPackage:
+                                            accidentType.iconFontPackage,
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(accident.name!),
+                                    Text(accidentType.name!),
                                   ],
                                 ),
                               );
                             }).toList(),
-                            onChanged: (Object? accident) {
-                              if (accident != null) {
-                                declarationController
-                                    .selectAccident(accident as Accident);
+                            onChanged: (Object? accidentType) {
+                              if (accidentType != null) {
+                                declarationController.selectAccident(
+                                    accidentType as AccidentTypeModel);
                               }
                             },
                             validator: (value) => value == null
@@ -143,7 +144,8 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                           CustomPrimaryButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate() &&
-                                  declarationState.selectedAccident != null) {
+                                  declarationState.selectedAccidentType !=
+                                      null) {
                                 final isError = !await declarationController
                                     .declareAccident(
                                   DeclarationModel(
@@ -151,8 +153,8 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
                                         .split(", ")
                                         .first,
                                     description: descriptionController.text,
-                                    accident:
-                                        declarationState.selectedAccident!,
+                                    accidentType:
+                                        declarationState.selectedAccidentType!,
                                     latitude:
                                         declarationState.selectedPos!.latitude,
                                     longitude:
@@ -261,7 +263,8 @@ class AccidentDeclarationViewWeb extends ConsumerWidget {
     );
   }
 
-  String? _getDescriptionInitialValue(Address? address, Accident? accident) {
+  String? _getDescriptionInitialValue(
+      Address? address, AccidentTypeModel? accident) {
     return "${accident?.name ?? "Situation inconnue"} situé(e) à ${address?.town ?? (address?.city ?? "Ville inconnue")}";
   }
 }
