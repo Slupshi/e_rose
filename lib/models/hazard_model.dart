@@ -13,6 +13,7 @@ class HazardModel with _$HazardModel {
     @JsonKey(name: 'accident') required AccidentTypeModel accidentType,
     required double latitude,
     required double longitude,
+    DateTime? createdAt,
   }) = _HazardModel;
 
   factory HazardModel.fromJson(Map<String, Object?> json) =>

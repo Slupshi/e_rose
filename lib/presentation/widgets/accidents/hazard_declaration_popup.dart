@@ -1,5 +1,6 @@
 import 'package:e_rose/controllers/hazard_declaration_controller.dart';
 import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -95,35 +96,46 @@ class HazardDeclarationConfirmationPopup extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      height: 100,
-                      width: 400,
-                      child: ListView.builder(
-                        itemCount: orderedHeroes.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                orderedHeroes[index].heroName,
+                    orderedHeroes.isNotEmpty
+                        ? SizedBox(
+                            height: 100,
+                            width: 400,
+                            child: ListView.builder(
+                              itemCount: orderedHeroes.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      orderedHeroes[index].heroName,
+                                    ),
+                                    Text(
+                                      declarationController.getDistance(
+                                                  orderedHeroes[index]) ==
+                                              null
+                                          ? "N/A"
+                                          : "${declarationController.getDistance(orderedHeroes[index])}Km",
+                                    ),
+                                    Text(
+                                      "Tel : ${orderedHeroes[index].phoneNumber}",
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Text(
-                                declarationController.getDistance(
-                                            orderedHeroes[index]) ==
-                                        null
-                                    ? "N/A"
-                                    : "${declarationController.getDistance(orderedHeroes[index])}Km",
+                            ),
+                          )
+                        : const Center(
+                            child: Text(
+                              "Il n'y a malheureusement aucun renfort disponible",
+                              style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: CustomColors.grey,
                               ),
-                              Text(
-                                "Tel : ${orderedHeroes[index].phoneNumber}",
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 )
               : const Center(
