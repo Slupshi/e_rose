@@ -1,4 +1,5 @@
 import 'package:e_rose/models/accident_type_model.dart';
+import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
@@ -21,6 +22,7 @@ class HazardMapState with _$HazardMapState {
     required List<HazardModel> hazards,
     required List<HazardModel> displayedHazards,
     LatLng? initialPosition,
+    CityPolygonModel? selectedCity,
   }) = _HazardMapState;
 }
 
@@ -50,6 +52,7 @@ class HazardMapController extends _$HazardMapController {
           displayedHazards: state.value!.hazards,
           selectedAccidentType: null,
           query: null,
+          selectedCity: null,
         ),
       );
 
@@ -89,6 +92,7 @@ class HazardMapController extends _$HazardMapController {
       state.value!.copyWith(
         displayedHazards: newDisplayedHazards,
         query: null,
+        selectedCity: null,
       ),
     );
   }
@@ -118,7 +122,10 @@ class HazardMapController extends _$HazardMapController {
     );
   }
 
-  void search(String query) {
+  Future<CityPolygonModel?> search(String query) async {
+    final CityPolygonModel? cityPolygon =
+        await GeoLocatorService.getGeoJsonByCityName(query);
+
     List<HazardModel> newDisplayedHazards = [];
     if (state.value?.selectedAccidentType == null) {
       newDisplayedHazards = state.value!.hazards
@@ -141,8 +148,10 @@ class HazardMapController extends _$HazardMapController {
       state.value!.copyWith(
         query: query,
         displayedHazards: newDisplayedHazards,
+        selectedCity: cityPolygon,
       ),
     );
+    return cityPolygon;
   }
 
   Future<List<HeroModel>> getHazardHeroes(
