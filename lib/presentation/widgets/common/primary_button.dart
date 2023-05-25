@@ -22,7 +22,12 @@ class CustomPrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(10),
+        elevation: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.hovered)) {
+            return 20;
+          }
+          return 10;
+        }),
         fixedSize: MaterialStateProperty.all(const Size.fromHeight(35)),
         foregroundColor: MaterialStateProperty.all(foregroundColor),
         backgroundColor: MaterialStateProperty.all(backgroundColor),

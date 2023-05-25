@@ -22,6 +22,8 @@ class HazardSearchBarWidget extends StatelessWidget {
         maxWidth: MediaQuery.of(context).size.width / 4,
       ),
       hintText: "Rechercher par nom de ville",
+      overlayColor:
+          MaterialStateProperty.all(CustomColors.lighGrey.withOpacity(0.2)),
       backgroundColor: MaterialStateProperty.all(CustomColors.white),
       hintStyle: MaterialStateProperty.all(
         const TextStyle(
@@ -30,6 +32,7 @@ class HazardSearchBarWidget extends StatelessWidget {
         ),
       ),
       leading: IconButton(
+        splashRadius: 20,
         onPressed: searchOnPressed,
         icon: const FaIcon(
           FontAwesomeIcons.magnifyingGlass,
@@ -39,6 +42,7 @@ class HazardSearchBarWidget extends StatelessWidget {
       side: MaterialStateProperty.all(BorderSide.none),
       trailing: [
         IconButton(
+          splashRadius: 20,
           onPressed: resetOnPressed,
           icon: const FaIcon(
             FontAwesomeIcons.xmark,

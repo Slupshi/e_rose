@@ -1,6 +1,7 @@
 import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/accidents/hazard_map_widget.dart';
 import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -46,57 +47,38 @@ class HeroCardMapWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Container(
-          height: constraints.maxHeight / 1.8,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: CustomColors.white,
-              width: 5,
-            ),
+        HazardMapWidget(
+          constraints: BoxConstraints(
+            maxHeight: constraints.maxHeight / 1.8,
           ),
-          child: FlutterMap(
-            mapController: mapController,
-            options: MapOptions(
-              center: LatLng(
+          mapController: mapController,
+          center: LatLng(
+            selectedHero.latitude,
+            selectedHero.longitude,
+          ),
+          markers: [
+            Marker(
+              point: LatLng(
                 selectedHero.latitude,
                 selectedHero.longitude,
               ),
-              zoom: 5,
-              maxZoom: 18,
-              minZoom: 3,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
+              builder: (context) => MapLocationDotWidget(
+                tooltip: selectedHero.heroName,
               ),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: LatLng(
-                      selectedHero.latitude,
-                      selectedHero.longitude,
-                    ),
-                    builder: (context) => MapLocationDotWidget(
-                      tooltip: selectedHero.heroName,
-                    ),
-                  ),
-                  if (userPosition != null) ...[
-                    Marker(
-                      point: LatLng(
-                        userPosition!.latitude,
-                        userPosition!.longitude,
-                      ),
-                      builder: (context) => const MapLocationDotWidget(
-                        color: CustomColors.lightBlue,
-                        tooltip: "Vous",
-                      ),
-                    ),
-                  ],
-                ],
+            ),
+            if (userPosition != null) ...[
+              Marker(
+                point: LatLng(
+                  userPosition!.latitude,
+                  userPosition!.longitude,
+                ),
+                builder: (context) => const MapLocationDotWidget(
+                  color: CustomColors.lightBlue,
+                  tooltip: "Vous",
+                ),
               ),
             ],
-          ),
+          ],
         ),
         SizedBox(
           height: constraints.maxHeight / 35,

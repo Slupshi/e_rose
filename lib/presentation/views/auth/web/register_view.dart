@@ -2,17 +2,22 @@ import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/register_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
+import 'package:e_rose/presentation/widgets/accidents/hazard_map_widget.dart';
+import 'package:e_rose/presentation/widgets/common/address_entry_widget.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
+import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:e_rose/router/routes.dart';
 import 'package:e_rose/services/api/dto/auth/register_model.dart';
+import 'package:e_rose/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 class RegisterViewWeb extends ConsumerWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -22,6 +27,7 @@ class RegisterViewWeb extends ConsumerWidget {
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final MapController mapController = MapController();
   RegisterViewWeb({super.key});
 
   @override
@@ -31,8 +37,8 @@ class RegisterViewWeb extends ConsumerWidget {
     return PageTemplateWidget(
       child: data.when(
         data: (registerState) {
-          final TextEditingController addressController =
-              TextEditingController(text: registerState.address);
+          final TextEditingController addressController = TextEditingController(
+              text: GeoLocatorService.displayAddress(registerState.address));
           if (registerState.allReadyTakenErrorMessage != null) {
             Future.delayed(
               Duration.zero,
@@ -240,46 +246,54 @@ class RegisterViewWeb extends ConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            height: MediaQuery.of(context).size.width / 5,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: CustomColors.white,
-                                width: 5,
-                              ),
+                          HazardMapWidget(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width / 3,
+                              maxHeight: MediaQuery.of(context).size.width / 5,
                             ),
-                            child: FlutterMap(
-                              options: MapOptions(
-                                maxZoom: 18,
-                                minZoom: 3,
-                                zoom: 5,
-                                onTap: (tapPosition, point) async {
-                                  await registerController
-                                      .selectMapPoint(point);
-                                },
-                              ),
-                              children: [
-                                TileLayer(
-                                  urlTemplate:
-                                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                  userAgentPackageName: 'com.example.app',
+                            mapController: mapController,
+                            markers: [
+                              if (registerState.selectedPos != null) ...[
+                                Marker(
+                                  point: registerState.selectedPos!,
+                                  builder: (_) =>
+                                      const MapLocationDotWidget(tooltip: ""),
                                 ),
                               ],
-                            ),
+                            ],
+                            onTap: (_, point) async {
+                              await registerController.selectMapPoint(point);
+                            },
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
                           CustomPrimaryButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final userPosition =
+                                  await GeoLocatorService.determinePosition();
+                              if (userPosition != null) {
+                                final pos = LatLng(
+                                  userPosition.latitude,
+                                  userPosition.longitude,
+                                );
+                                mapController.move(pos, 13);
+                                registerController.selectMapPoint(pos);
+                              }
+                            },
                             text: "Votre position",
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          CustomEntryWidget(
+                          AddressEntryWidget(
                             textEditingController: addressController,
-                            labelText: "Adresse",
-                            hintText: "Cliquez sur la carte",
+                            searchOnPressed: () async {
+                              final pos = await registerController
+                                  .selectPointFromAddress(
+                                      addressController.text);
+                              if (pos != null) {
+                                mapController.move(pos, 15);
+                              }
+                            },
                             validator: (value) => value == null ||
                                     registerState.selectedPos == null
                                 ? "Il vous faut une adresse"

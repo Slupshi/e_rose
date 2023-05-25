@@ -4,7 +4,9 @@ import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
 import 'package:e_rose/models/repositories/hazard_repository.dart';
 import 'package:e_rose/models/repositories/hero_repository.dart';
+import 'package:e_rose/services/geolocator_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'hazard_map_controller.g.dart';
@@ -18,6 +20,7 @@ class HazardMapState with _$HazardMapState {
     String? query,
     required List<HazardModel> hazards,
     required List<HazardModel> displayedHazards,
+    LatLng? initialPosition,
   }) = _HazardMapState;
 }
 
@@ -25,6 +28,11 @@ class HazardMapState with _$HazardMapState {
 class HazardMapController extends _$HazardMapController {
   @override
   FutureOr<HazardMapState> build() async {
+    final initialPos = await GeoLocatorService.determinePosition();
+    LatLng? initialCenter;
+    if (initialPos != null) {
+      initialCenter = LatLng(initialPos.latitude, initialPos.longitude);
+    }
     final List<HazardModel> hazards =
         await ref.read(hazardRepositoryProvider).getHazards();
     final List<AccidentTypeModel> accidents =
@@ -33,6 +41,7 @@ class HazardMapController extends _$HazardMapController {
       accidentsTypes: accidents,
       hazards: hazards,
       displayedHazards: hazards,
+      initialPosition: initialCenter,
     );
   }
 

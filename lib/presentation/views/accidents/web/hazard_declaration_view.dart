@@ -4,6 +4,8 @@ import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
+import 'package:e_rose/presentation/widgets/accidents/hazard_map_widget.dart';
+import 'package:e_rose/presentation/widgets/common/address_entry_widget.dart';
 import 'package:e_rose/presentation/widgets/common/entry_widget.dart';
 import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/vertical_divider.dart';
@@ -120,37 +122,20 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
-                          Stack(
-                            children: [
-                              CustomEntryWidget(
-                                textEditingController: addressController,
-                                labelText: "Adresse",
-                                hintText: "Cliquez sur la carte",
-                                validator: (value) => value == null ||
-                                        hazardDeclarationState.selectedPos ==
-                                            null
-                                    ? "Il vous faut une adresse"
-                                    : null,
-                              ),
-                              Positioned(
-                                right: 10,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    final pos =
-                                        await hazardDeclarationController
-                                            .selectPointFromAddress(
-                                                addressController.text);
-                                    if (pos != null) {
-                                      mapController.move(pos, 15);
-                                    }
-                                  },
-                                  icon: const FaIcon(
-                                    FontAwesomeIcons.magnifyingGlass,
-                                    color: CustomColors.lighGrey,
-                                  ),
-                                ),
-                              )
-                            ],
+                          AddressEntryWidget(
+                            textEditingController: addressController,
+                            searchOnPressed: () async {
+                              final pos = await hazardDeclarationController
+                                  .selectPointFromAddress(
+                                      addressController.text);
+                              if (pos != null) {
+                                mapController.move(pos, 15);
+                              }
+                            },
+                            validator: (value) => value == null ||
+                                    hazardDeclarationState.selectedPos == null
+                                ? "Il vous faut une adresse"
+                                : null,
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 45),
@@ -217,49 +202,27 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.width / 4,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: CustomColors.white,
-                              width: 5,
-                            ),
+                        HazardMapWidget(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 3,
+                            maxHeight: MediaQuery.of(context).size.width / 4,
                           ),
-                          child: FlutterMap(
-                            mapController: mapController,
-                            options: MapOptions(
-                              maxZoom: 18,
-                              minZoom: 3,
-                              zoom: 5,
-                              onTap: (tapPosition, point) async {
-                                await hazardDeclarationController
-                                    .selectMapPoint(point);
-                              },
-                            ),
-                            children: [
-                              TileLayer(
-                                urlTemplate:
-                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                userAgentPackageName: 'com.example.app',
-                              ),
-                              MarkerLayer(
-                                markers: [
-                                  if (hazardDeclarationState.selectedPos !=
-                                      null) ...[
-                                    Marker(
-                                      point:
-                                          hazardDeclarationState.selectedPos!,
-                                      builder: (context) =>
-                                          const MapLocationDotWidget(
-                                        tooltip: "",
-                                      ),
-                                    ),
-                                  ],
-                                ],
+                          mapController: mapController,
+                          markers: [
+                            if (hazardDeclarationState.selectedPos != null) ...[
+                              Marker(
+                                point: hazardDeclarationState.selectedPos!,
+                                builder: (context) =>
+                                    const MapLocationDotWidget(
+                                  tooltip: "",
+                                ),
                               ),
                             ],
-                          ),
+                          ],
+                          onTap: (_, point) async {
+                            await hazardDeclarationController
+                                .selectMapPoint(point);
+                          },
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 45,

@@ -17,7 +17,12 @@ class HomeButtonWidget extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          elevation: MaterialStateProperty.all(0),
+          elevation: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.hovered)) {
+              return 10;
+            }
+            return 0;
+          }),
           fixedSize: MaterialStateProperty.all(const Size.fromHeight(50)),
           backgroundColor: MaterialStateProperty.resolveWith((state) {
             if (state.contains(MaterialState.hovered)) {

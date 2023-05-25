@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:e_rose/models/accident_type_model.dart';
+import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
 import 'package:e_rose/models/repositories/auth_repository.dart';
 import 'package:e_rose/services/api/dto/auth/register_model.dart';
@@ -22,7 +23,7 @@ class RegisterState with _$RegisterState {
     required SelectedAccidentsErrorType accidentsErrorType,
     required String? allReadyTakenErrorMessage,
     LatLng? selectedPos,
-    String? address,
+    Address? address,
   }) = _RegisterState;
 }
 
@@ -84,9 +85,15 @@ class RegisterController extends _$RegisterController {
     state = AsyncData(
       state.value!.copyWith(
         selectedPos: pos,
-        address: GeoLocatorService.displayAddress(address),
+        address: address,
       ),
     );
+  }
+
+  Future<LatLng?> selectPointFromAddress(String address) async {
+    final pos = await GeoLocatorService.getPosFromAddress(address);
+    state = AsyncData(state.value!.copyWith(selectedPos: pos));
+    return pos;
   }
 
   Future<bool> register(RegisterModel model) async {
