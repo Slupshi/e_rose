@@ -8,8 +8,8 @@ class PageTemplateWidget extends StatelessWidget {
   const PageTemplateWidget({
     super.key,
     required this.child,
-    this.horizontalPaddingMultiplier = 7,
-    this.verticalPaddingMultiplier = 9,
+    this.horizontalPaddingMultiplier = 10,
+    this.verticalPaddingMultiplier = 12,
   });
 
   @override

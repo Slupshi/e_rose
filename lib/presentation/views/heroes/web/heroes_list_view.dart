@@ -62,8 +62,8 @@ class HeroesListViewWeb extends ConsumerWidget {
                                     child: SizedBox(
                                       height: constraints.maxHeight / 12,
                                       child: Padding(
-                                        padding: EdgeInsets.only(
-                                          left: constraints.maxWidth / 10,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: constraints.maxWidth / 15,
                                         ),
                                         child: Center(
                                           child: RichText(
