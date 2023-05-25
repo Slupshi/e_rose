@@ -1,4 +1,5 @@
 import 'package:e_rose/models/accident_type_model.dart';
+import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:e_rose/models/hazard_model.dart';
 import 'package:e_rose/models/hero.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
@@ -21,6 +22,7 @@ class HazardMapState with _$HazardMapState {
     required List<HazardModel> hazards,
     required List<HazardModel> displayedHazards,
     LatLng? initialPosition,
+    CityPolygonModel? selectedCity,
   }) = _HazardMapState;
 }
 
@@ -50,6 +52,7 @@ class HazardMapController extends _$HazardMapController {
           displayedHazards: state.value!.hazards,
           selectedAccidentType: null,
           query: null,
+          selectedCity: null,
         ),
       );
 
@@ -89,6 +92,7 @@ class HazardMapController extends _$HazardMapController {
       state.value!.copyWith(
         displayedHazards: newDisplayedHazards,
         query: null,
+        selectedCity: null,
       ),
     );
   }
@@ -118,31 +122,40 @@ class HazardMapController extends _$HazardMapController {
     );
   }
 
-  void search(String query) {
-    List<HazardModel> newDisplayedHazards = [];
-    if (state.value?.selectedAccidentType == null) {
-      newDisplayedHazards = state.value!.hazards
-          .where((hazard) =>
-              hazard.cityName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    } else {
-      newDisplayedHazards = state.value!.hazards
-          .where(
-            (hazard) =>
-                hazard.accidentType.name ==
-                    state.value!.selectedAccidentType!.name &&
-                hazard.cityName.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-          )
-          .toList();
+  Future<CityPolygonModel?> search(String query) async {
+    if (query.isNotEmpty) {
+      final CityPolygonModel? cityPolygon =
+          await GeoLocatorService.getGeoJsonByCityName(query);
+
+      List<HazardModel> newDisplayedHazards = [];
+      if (state.value?.selectedAccidentType == null) {
+        newDisplayedHazards = state.value!.hazards
+            .where((hazard) => hazard.cityName
+                .toLowerCase()
+                .contains(cityPolygon!.cityName!.toLowerCase()))
+            .toList();
+      } else {
+        newDisplayedHazards = state.value!.hazards
+            .where(
+              (hazard) =>
+                  hazard.accidentType.name ==
+                      state.value!.selectedAccidentType!.name &&
+                  hazard.cityName.toLowerCase().contains(
+                        cityPolygon!.cityName!.toLowerCase(),
+                      ),
+            )
+            .toList();
+      }
+      state = AsyncData(
+        state.value!.copyWith(
+          query: cityPolygon?.cityName,
+          displayedHazards: newDisplayedHazards,
+          selectedCity: cityPolygon,
+        ),
+      );
+      return cityPolygon;
     }
-    state = AsyncData(
-      state.value!.copyWith(
-        query: query,
-        displayedHazards: newDisplayedHazards,
-      ),
-    );
+    return null;
   }
 
   Future<List<HeroModel>> getHazardHeroes(

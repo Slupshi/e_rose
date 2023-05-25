@@ -1,3 +1,4 @@
+import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class HazardMapWidget extends StatelessWidget {
   final List<Marker> markers;
   final LatLng? center;
   final List<Widget>? additionalWidgets;
+  final CityPolygonModel? city;
   final void Function(TapPosition, LatLng)? onTap;
   final BoxConstraints? constraints;
   const HazardMapWidget({
@@ -20,6 +22,7 @@ class HazardMapWidget extends StatelessWidget {
     this.additionalWidgets,
     this.onTap,
     this.constraints,
+    this.city,
   });
 
   @override
@@ -49,6 +52,41 @@ class HazardMapWidget extends StatelessWidget {
                 TileLayer(
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 ),
+                if (city != null) ...[
+                  CircleLayer(
+                    circles: [
+                      CircleMarker(
+                        point: city!.center,
+                        radius: 50000,
+                        useRadiusInMeter: true,
+                        borderColor: CustomColors.red,
+                        borderStrokeWidth: 1,
+                        color: CustomColors.lightRed.withOpacity(0.1),
+                      ),
+                    ],
+                  ),
+                ],
+                if (city?.coordinates != null &&
+                    city!.coordinates.isNotEmpty) ...[
+                  PolygonLayer(
+                    polygons: [
+                      Polygon(
+                        points: city!.coordinates,
+                        color: CustomColors.lightOrange.withOpacity(0.2),
+                        borderColor: CustomColors.darkOrange,
+                        borderStrokeWidth: 3,
+                        isFilled: true,
+                        label: city!.cityName,
+                        labelPlacement: PolygonLabelPlacement.polylabel,
+                        labelStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: CustomColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 MarkerLayer(markers: markers),
               ],
             ),

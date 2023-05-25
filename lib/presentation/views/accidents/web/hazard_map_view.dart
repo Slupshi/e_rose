@@ -1,5 +1,6 @@
 import 'package:e_rose/controllers/hazard_map_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
+import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_map_widget.dart';
@@ -9,6 +10,7 @@ import 'package:e_rose/presentation/widgets/common/map_location_dot.dart';
 import 'package:e_rose/presentation/widgets/common/page_template.dart';
 import 'package:e_rose/presentation/widgets/common/primary_button.dart';
 import 'package:e_rose/router/routes.dart';
+import 'package:e_rose/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,15 +33,15 @@ class HazardMapViewWeb extends ConsumerWidget {
       horizontalPaddingMultiplier: 20,
       verticalPaddingMultiplier: 20,
       child: data.when(
-        data: (accidentMapState) {
+        data: (hazardMapState) {
           return Padding(
             padding: const EdgeInsets.all(40),
             child: Expanded(
               child: HazardMapWidget(
-                center: accidentMapState.initialPosition,
+                center: hazardMapState.initialPosition,
                 mapController: mapController,
                 markers: [
-                  for (var hazard in accidentMapState.displayedHazards) ...[
+                  for (var hazard in hazardMapState.displayedHazards) ...[
                     Marker(
                       point: LatLng(
                         hazard.latitude,
@@ -99,8 +101,8 @@ class HazardMapViewWeb extends ConsumerWidget {
                                   },
                                   hintText: "Filtrer par type d'accident",
                                   initialValue:
-                                      accidentMapState.selectedAccidentType,
-                                  items: accidentMapState.accidentsTypes.map(
+                                      hazardMapState.selectedAccidentType,
+                                  items: hazardMapState.accidentsTypes.map(
                                     (AccidentTypeModel accidentType) {
                                       return DropdownMenuItem(
                                         value: accidentType,
@@ -150,12 +152,20 @@ class HazardMapViewWeb extends ConsumerWidget {
                             ],
                           ),
                           HazardSearchBarWidget(
-                            resetOnPressed: () {
+                            resetOnPressed: () async {
+                              await GeoLocatorService.getGeoJsonByCityName(
+                                  _searchController.text);
                               _searchController.text = "";
                               hazardMapController.resetQueryFilter();
                             },
-                            searchOnPressed: () => hazardMapController
-                                .search(_searchController.text),
+                            searchOnPressed: () async {
+                              final CityPolygonModel? cityPolygon =
+                                  await hazardMapController
+                                      .search(_searchController.text);
+                              if (cityPolygon != null) {
+                                mapController.move(cityPolygon.center, 12);
+                              }
+                            },
                             controller: _searchController,
                           ),
                           CustomPrimaryButton(
@@ -168,6 +178,7 @@ class HazardMapViewWeb extends ConsumerWidget {
                     ),
                   ),
                 ],
+                city: hazardMapState.selectedCity,
               ),
             ),
           );

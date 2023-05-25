@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:e_rose/models/address.dart';
+import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -87,4 +88,41 @@ class GeoLocatorService {
   static String? displayAddress(Address? address) => address != null
       ? "${address.houseNumber ?? ""} ${address.road ?? ""}${address.houseNumber != null && address.road != null ? "," : ""} ${address.postcode ?? ""} ${address.town ?? (address.city ?? "")}${address.postcode != null && address.town != null ? "," : ""} ${address.country ?? ""}"
       : null;
+
+  static Future<CityPolygonModel?> getGeoJsonByCityName(
+      String cityNameQuery) async {
+    try {
+      final Dio dio = Dio();
+      final res = await dio.get(
+          "https://nominatim.openstreetmap.org/search?city=$cityNameQuery&format=json&polygon_geojson=1");
+
+      final cityData = (res.data as List).first;
+      final coordinates = cityData["geojson"]["coordinates"][0];
+      final cityName = cityData["display_name"].toString().split(",").first;
+      final LatLng cityCenter = LatLng(
+        double.parse(cityData["lat"]),
+        double.parse(cityData["lon"]),
+      );
+
+      List<LatLng> positions = [];
+
+      for (List coords in coordinates) {
+        positions.add(
+          LatLng(
+            coords.last,
+            coords.first,
+          ),
+        );
+      }
+
+      final CityPolygonModel model = CityPolygonModel(
+        coordinates: positions,
+        cityName: cityName,
+        center: cityCenter,
+      );
+      return model;
+    } catch (ex) {
+      return null;
+    }
+  }
 }
