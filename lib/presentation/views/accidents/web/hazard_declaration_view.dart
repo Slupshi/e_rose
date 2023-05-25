@@ -164,9 +164,10 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                                     !await hazardDeclarationController
                                         .declareHazard(
                                   HazardModel(
-                                    cityName: addressController.text
-                                        .split(", ")
-                                        .first,
+                                    cityName: hazardDeclarationState
+                                            .selectedAddress?.town ??
+                                        hazardDeclarationState
+                                            .selectedAddress!.city!,
                                     description: descriptionController.text,
                                     accidentType: hazardDeclarationState
                                         .selectedAccidentType!,

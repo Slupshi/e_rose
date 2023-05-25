@@ -31,6 +31,7 @@ class MapLocationDotWidget extends StatelessWidget {
               )
             : FontAwesomeIcons.locationDot,
         color: color,
+        size: iconCode != null ? 30 : null,
       ),
     );
   }

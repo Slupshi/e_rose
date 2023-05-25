@@ -123,35 +123,39 @@ class HazardMapController extends _$HazardMapController {
   }
 
   Future<CityPolygonModel?> search(String query) async {
-    final CityPolygonModel? cityPolygon =
-        await GeoLocatorService.getGeoJsonByCityName(query);
+    if (query.isNotEmpty) {
+      final CityPolygonModel? cityPolygon =
+          await GeoLocatorService.getGeoJsonByCityName(query);
 
-    List<HazardModel> newDisplayedHazards = [];
-    if (state.value?.selectedAccidentType == null) {
-      newDisplayedHazards = state.value!.hazards
-          .where((hazard) =>
-              hazard.cityName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    } else {
-      newDisplayedHazards = state.value!.hazards
-          .where(
-            (hazard) =>
-                hazard.accidentType.name ==
-                    state.value!.selectedAccidentType!.name &&
-                hazard.cityName.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-          )
-          .toList();
+      List<HazardModel> newDisplayedHazards = [];
+      if (state.value?.selectedAccidentType == null) {
+        newDisplayedHazards = state.value!.hazards
+            .where((hazard) => hazard.cityName
+                .toLowerCase()
+                .contains(cityPolygon!.cityName!.toLowerCase()))
+            .toList();
+      } else {
+        newDisplayedHazards = state.value!.hazards
+            .where(
+              (hazard) =>
+                  hazard.accidentType.name ==
+                      state.value!.selectedAccidentType!.name &&
+                  hazard.cityName.toLowerCase().contains(
+                        cityPolygon!.cityName!.toLowerCase(),
+                      ),
+            )
+            .toList();
+      }
+      state = AsyncData(
+        state.value!.copyWith(
+          query: cityPolygon?.cityName,
+          displayedHazards: newDisplayedHazards,
+          selectedCity: cityPolygon,
+        ),
+      );
+      return cityPolygon;
     }
-    state = AsyncData(
-      state.value!.copyWith(
-        query: query,
-        displayedHazards: newDisplayedHazards,
-        selectedCity: cityPolygon,
-      ),
-    );
-    return cityPolygon;
+    return null;
   }
 
   Future<List<HeroModel>> getHazardHeroes(
