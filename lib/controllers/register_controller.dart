@@ -90,9 +90,14 @@ class RegisterController extends _$RegisterController {
     );
   }
 
-  Future<LatLng?> selectPointFromAddress(String address) async {
-    final pos = await GeoLocatorService.getPosFromAddress(address);
-    state = AsyncData(state.value!.copyWith(selectedPos: pos));
+  Future<LatLng?> selectPointFromAddress(String addressString) async {
+    final pos = await GeoLocatorService.getPosFromAddress(addressString);
+    Address? address;
+    if (pos != null) {
+      address = await GeoLocatorService.getAddressFromPos(pos);
+    }
+    state =
+        AsyncData(state.value!.copyWith(selectedPos: pos, address: address));
     return pos;
   }
 

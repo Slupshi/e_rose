@@ -13,7 +13,7 @@ class RegisterModel with _$RegisterModel {
     required String password,
     required double latitude,
     required double longitude,
-    required List<AccidentTypeModel> accidentTypes,
+    required List<AccidentTypeModel> accidents,
   }) = _RegisterModel;
 
   factory RegisterModel.fromJson(Map<String, Object?> json) =>

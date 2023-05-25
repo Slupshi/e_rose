@@ -1,3 +1,4 @@
+import 'package:e_rose/assets/spacing.dart';
 import 'package:e_rose/controllers/hazard_declaration_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/address.dart';
@@ -95,7 +96,11 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(accidentType.name!),
+                                    Text(
+                                      accidentType.name!,
+                                      textScaleFactor: textScaleFactor(context),
+                                      style: const TextStyle(fontSize: 8),
+                                    ),
                                   ],
                                 ),
                               );
@@ -134,7 +139,7 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                             },
                             validator: (value) => value == null ||
                                     hazardDeclarationState.selectedPos == null
-                                ? "Il vous faut une adresse"
+                                ? "Il vous faut valider votre adresse"
                                 : null,
                           ),
                           SizedBox(

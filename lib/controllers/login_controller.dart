@@ -23,4 +23,9 @@ class LoginController extends _$LoginController {
       return false;
     }
   }
+
+  Future<void> disconnect() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("token");
+  }
 }

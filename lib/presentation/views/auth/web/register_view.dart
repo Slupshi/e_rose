@@ -50,18 +50,18 @@ class RegisterViewWeb extends ConsumerWidget {
               ),
             );
           }
-          return Center(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 15,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
+          return Form(
+            key: _formKey,
+            child: Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 15,
+                      ),
+                      child: SingleChildScrollView(
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -71,8 +71,8 @@ class RegisterViewWeb extends ConsumerWidget {
                                 labelText: "Nom de héro",
                                 hintText: "Superman",
                                 validator: (value) => (value != null &&
-                                        value.length < 4)
-                                    ? "Votre nom doit faire plus de 3 caractères"
+                                        (value.length < 4 || value.length > 20))
+                                    ? "Votre nom doit faire entre 4 et 20 caractères inclus"
                                     : null,
                               ),
                               SizedBox(
@@ -183,6 +183,8 @@ class RegisterViewWeb extends ConsumerWidget {
                               ),
                               const SizedBox(height: 20),
                               DropdownWidget(
+                                isDense: true,
+                                isExpanded: true,
                                 onChanged: (Object? accidentType) {
                                   if (accidentType != null) {
                                     registerController.selectAccident(
@@ -236,134 +238,137 @@ class RegisterViewWeb extends ConsumerWidget {
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 15,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          HazardMapWidget(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width / 3,
-                              maxHeight: MediaQuery.of(context).size.width / 5,
-                            ),
-                            mapController: mapController,
-                            markers: [
-                              if (registerState.selectedPos != null) ...[
-                                Marker(
-                                  point: registerState.selectedPos!,
-                                  builder: (_) =>
-                                      const MapLocationDotWidget(tooltip: ""),
-                                ),
-                              ],
-                            ],
-                            onTap: (_, point) async {
-                              await registerController.selectMapPoint(point);
-                            },
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height / 45),
-                          CustomPrimaryButton(
-                            onPressed: () async {
-                              final userPosition =
-                                  await GeoLocatorService.determinePosition();
-                              if (userPosition != null) {
-                                final pos = LatLng(
-                                  userPosition.latitude,
-                                  userPosition.longitude,
-                                );
-                                mapController.move(pos, 13);
-                                registerController.selectMapPoint(pos);
-                              }
-                            },
-                            text: "Votre position",
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height / 45),
-                          AddressEntryWidget(
-                            textEditingController: addressController,
-                            searchOnPressed: () async {
-                              final pos = await registerController
-                                  .selectPointFromAddress(
-                                      addressController.text);
-                              if (pos != null) {
-                                mapController.move(pos, 15);
-                              }
-                            },
-                            validator: (value) => value == null ||
-                                    registerState.selectedPos == null
-                                ? "Il vous faut une adresse"
-                                : null,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 45,
-                          ),
-                          CustomPrimaryButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                if (registerState
-                                    .selectedAccidentType.isEmpty) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      actionsAlignment:
-                                          MainAxisAlignment.center,
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text("Je rectifie !"),
-                                        )
-                                      ],
-                                      content: const Text(
-                                        "Vous devez sélectionner entre 1 et 3 types d'incidents",
-                                      ),
-                                    ),
-                                  );
-                                  return;
-                                }
-                                final isRegistered =
-                                    await registerController.register(
-                                  RegisterModel(
-                                    heroName: _heroNameController.text,
-                                    email: _emailController.text,
-                                    phoneNumber: _phoneNumberController.text,
-                                    password: _passwordController.text,
-                                    latitude:
-                                        registerState.selectedPos!.latitude,
-                                    longitude:
-                                        registerState.selectedPos!.longitude,
-                                    accidentTypes:
-                                        registerState.selectedAccidentType,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 15,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HazardMapWidget(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width / 3,
+                                maxHeight:
+                                    MediaQuery.of(context).size.width / 5,
+                              ),
+                              mapController: mapController,
+                              markers: [
+                                if (registerState.selectedPos != null) ...[
+                                  Marker(
+                                    point: registerState.selectedPos!,
+                                    builder: (_) =>
+                                        const MapLocationDotWidget(tooltip: ""),
                                   ),
-                                );
-                                if (isRegistered) {
-                                  if (context.mounted) {
-                                    context.go(Routes.homePage);
+                                ],
+                              ],
+                              onTap: (_, point) async {
+                                await registerController.selectMapPoint(point);
+                              },
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 45),
+                            CustomPrimaryButton(
+                              onPressed: () async {
+                                final userPosition =
+                                    await GeoLocatorService.determinePosition();
+                                if (userPosition != null) {
+                                  final pos = LatLng(
+                                    userPosition.latitude,
+                                    userPosition.longitude,
+                                  );
+                                  mapController.move(pos, 13);
+                                  registerController.selectMapPoint(pos);
+                                }
+                              },
+                              text: "Votre position",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 45),
+                            AddressEntryWidget(
+                              textEditingController: addressController,
+                              searchOnPressed: () async {
+                                final pos = await registerController
+                                    .selectPointFromAddress(
+                                        addressController.text);
+                                if (pos != null) {
+                                  mapController.move(pos, 15);
+                                }
+                              },
+                              validator: (value) => value == null ||
+                                      registerState.selectedPos == null
+                                  ? "Il vous faut une adresse"
+                                  : null,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 45,
+                            ),
+                            CustomPrimaryButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  if (registerState
+                                      .selectedAccidentType.isEmpty) {
                                     showDialog(
                                       context: context,
-                                      builder: (_) => AlertDialog(
-                                        title: Text(
-                                          "Vous êtes maintenant connecté en tant que ${_heroNameController.text}",
+                                      builder: (context) => AlertDialog(
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text("Je rectifie !"),
+                                          )
+                                        ],
+                                        content: const Text(
+                                          "Vous devez sélectionner entre 1 et 3 types d'incidents",
                                         ),
                                       ),
                                     );
+                                    return;
+                                  }
+                                  final isRegistered =
+                                      await registerController.register(
+                                    RegisterModel(
+                                      heroName: _heroNameController.text,
+                                      email: _emailController.text,
+                                      phoneNumber: _phoneNumberController.text,
+                                      password: _passwordController.text,
+                                      latitude:
+                                          registerState.selectedPos!.latitude,
+                                      longitude:
+                                          registerState.selectedPos!.longitude,
+                                      accidents:
+                                          registerState.selectedAccidentType,
+                                    ),
+                                  );
+                                  if (isRegistered) {
+                                    if (context.mounted) {
+                                      context.go(Routes.profilePage);
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: Text(
+                                            "Vous êtes maintenant connecté en tant que ${_heroNameController.text}",
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   }
                                 }
-                              }
-                            },
-                            text: "S'enregistrer",
-                          )
-                        ],
+                              },
+                              text: "S'enregistrer",
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

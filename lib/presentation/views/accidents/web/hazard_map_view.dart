@@ -83,12 +83,14 @@ class HazardMapViewWeb extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Material(
                                 elevation: 10,
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.transparent,
                                 child: DropdownWidget(
+                                  isDense: true,
                                   onChanged: (Object? accidentType) {
                                     if (accidentType != null) {
                                       hazardMapController.selectAccident(
