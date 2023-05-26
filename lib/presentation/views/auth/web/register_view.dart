@@ -227,7 +227,7 @@ class RegisterViewWeb extends ConsumerWidget {
                                 textScaleFactor: textScaleFactor(context),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  color: CustomColors.red,
+                                  color: CustomColors.lightRed,
                                   fontSize: 10,
                                   fontStyle: FontStyle.italic,
                                 ),

@@ -49,6 +49,7 @@ class CustomEntryWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
         ),
+        errorStyle: const TextStyle(color: CustomColors.lightRed),
       ),
     );
   }
