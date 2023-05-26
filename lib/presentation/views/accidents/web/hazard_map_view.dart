@@ -2,7 +2,7 @@ import 'package:e_rose/controllers/hazard_map_controller.dart';
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/city_polygon_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
-import 'package:e_rose/presentation/widgets/accidents/hazard_declaration_popup.dart';
+import 'package:e_rose/presentation/widgets/accidents/hazard_hero_popup.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_map_widget.dart';
 import 'package:e_rose/presentation/widgets/accidents/hazard_searchbar.dart';
 import 'package:e_rose/presentation/widgets/common/dropdown_widget.dart';
@@ -75,6 +75,26 @@ class HazardMapViewWeb extends ConsumerWidget {
                         ),
                       ),
                     ),
+                  ],
+                  if (hazardMapState.displayedHeroes != null) ...[
+                    for (var hero in hazardMapState.displayedHeroes!) ...[
+                      if (hazardMapController.canDisplayedHero(
+                          hazardMapState.selectedCity!, hero)) ...[
+                        Marker(
+                          point: LatLng(
+                            hero.latitude,
+                            hero.longitude,
+                          ),
+                          builder: (context) => InkWell(
+                            mouseCursor: SystemMouseCursors.click,
+                            child: MapLocationDotWidget(
+                              tooltip: hero.heroName,
+                              color: CustomColors.lightBlue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
                   ],
                 ],
                 additionalWidgets: [

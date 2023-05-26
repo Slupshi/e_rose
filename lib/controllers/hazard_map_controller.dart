@@ -23,6 +23,7 @@ class HazardMapState with _$HazardMapState {
     required List<HazardModel> displayedHazards,
     LatLng? initialPosition,
     CityPolygonModel? selectedCity,
+    List<HeroModel>? displayedHeroes,
   }) = _HazardMapState;
 }
 
@@ -53,6 +54,7 @@ class HazardMapController extends _$HazardMapController {
           selectedAccidentType: null,
           query: null,
           selectedCity: null,
+          displayedHeroes: null,
         ),
       );
 
@@ -73,6 +75,7 @@ class HazardMapController extends _$HazardMapController {
       state.value!.copyWith(
         displayedHazards: newDisplayedHazards,
         selectedAccidentType: null,
+        displayedHeroes: null,
       ),
     );
   }
@@ -84,8 +87,7 @@ class HazardMapController extends _$HazardMapController {
     } else {
       newDisplayedHazards = state.value!.hazards
           .where((hazard) =>
-              hazard.accidentType.name ==
-              state.value!.selectedAccidentType!.name)
+              hazard.accidentType.id == state.value!.selectedAccidentType!.id)
           .toList();
     }
     state = AsyncData(
@@ -93,6 +95,7 @@ class HazardMapController extends _$HazardMapController {
         displayedHazards: newDisplayedHazards,
         query: null,
         selectedCity: null,
+        displayedHeroes: null,
       ),
     );
   }
@@ -101,13 +104,13 @@ class HazardMapController extends _$HazardMapController {
     List<HazardModel> newDisplayedHazards = [];
     if (state.value?.query == null) {
       newDisplayedHazards = state.value!.hazards
-          .where((hazard) => hazard.accidentType.name == accidentType.name)
+          .where((hazard) => hazard.accidentType.id == accidentType.id)
           .toList();
     } else {
       newDisplayedHazards = state.value!.hazards
           .where(
             (hazard) =>
-                hazard.accidentType.name == accidentType.name &&
+                hazard.accidentType.id == accidentType.id &&
                 hazard.cityName.toLowerCase().contains(
                       state.value!.query!.toLowerCase(),
                     ),
@@ -127,6 +130,13 @@ class HazardMapController extends _$HazardMapController {
       final CityPolygonModel? cityPolygon =
           await GeoLocatorService.getGeoJsonByCityName(query);
 
+      List<HeroModel>? displayedHeroes;
+      List<HeroModel>? heroes;
+
+      if (cityPolygon != null) {
+        displayedHeroes = [];
+        heroes = await ref.read(heroRepositoryProvider).getHeroes();
+      }
       List<HazardModel> newDisplayedHazards = [];
       if (state.value?.selectedAccidentType == null) {
         newDisplayedHazards = state.value!.hazards
@@ -134,10 +144,24 @@ class HazardMapController extends _$HazardMapController {
                 .toLowerCase()
                 .contains(cityPolygon!.cityName!.toLowerCase()))
             .toList();
+        if (heroes != null && heroes.isNotEmpty) {
+          for (var hero in heroes) {
+            final toto = hero.accidentTypes!
+                .toSet()
+                .intersection(
+                    newDisplayedHazards.map((e) => e.accidentType).toSet())
+                .toList();
+            if (toto.isNotEmpty) {
+              displayedHeroes!.add(hero);
+            }
+          }
+        }
       } else {
         newDisplayedHazards = state.value!.hazards
             .where(
               (hazard) =>
+                  hazard.accidentType.id ==
+                      state.value!.selectedAccidentType!.id &&
                   hazard.accidentType.name ==
                       state.value!.selectedAccidentType!.name &&
                   hazard.cityName.toLowerCase().contains(
@@ -151,6 +175,7 @@ class HazardMapController extends _$HazardMapController {
           query: cityPolygon?.cityName,
           displayedHazards: newDisplayedHazards,
           selectedCity: cityPolygon,
+          displayedHeroes: displayedHeroes,
         ),
       );
       return cityPolygon;
@@ -164,5 +189,15 @@ class HazardMapController extends _$HazardMapController {
         .where((hero) => hero.accidentTypes!.any(
             (heroAccidentType) => heroAccidentType.name == accidentType.name))
         .toList();
+  }
+
+  bool canDisplayedHero(CityPolygonModel city, HeroModel hero) {
+    final distance = GeoLocatorService.calculateDistance(
+      city.center.latitude,
+      city.center.longitude,
+      hero.latitude,
+      hero.longitude,
+    );
+    return distance < 50000;
   }
 }
