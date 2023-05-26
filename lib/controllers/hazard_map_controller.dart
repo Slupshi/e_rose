@@ -137,7 +137,6 @@ class HazardMapController extends _$HazardMapController {
         displayedHeroes = [];
         heroes = await ref.read(heroRepositoryProvider).getHeroes();
       }
-
       List<HazardModel> newDisplayedHazards = [];
       if (state.value?.selectedAccidentType == null) {
         newDisplayedHazards = state.value!.hazards
@@ -163,6 +162,8 @@ class HazardMapController extends _$HazardMapController {
               (hazard) =>
                   hazard.accidentType.id ==
                       state.value!.selectedAccidentType!.id &&
+                  hazard.accidentType.name ==
+                      state.value!.selectedAccidentType!.name &&
                   hazard.cityName.toLowerCase().contains(
                         cityPolygon!.cityName!.toLowerCase(),
                       ),
