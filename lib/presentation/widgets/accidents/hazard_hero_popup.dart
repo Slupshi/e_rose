@@ -4,6 +4,7 @@ import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HazardHeroesPopup extends ConsumerWidget {
   final List<HeroModel> heroes;
@@ -166,6 +167,19 @@ class HazardHeroesPopup extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
           child: const Text("OK"),
         ),
+        if (!isConfirmation) ...[
+          TextButton(
+            onPressed: () {
+              final url = Uri(
+                scheme: "https",
+                path:
+                    "www.google.com/maps/place/${hazardPos.latitude}N+${hazardPos.longitude}E",
+              );
+              launchUrl(url);
+            },
+            child: const Text("Itinéraire"),
+          ),
+        ],
       ],
     );
   }
