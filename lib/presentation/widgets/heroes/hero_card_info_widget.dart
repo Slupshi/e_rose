@@ -1,5 +1,5 @@
 import 'package:e_rose/assets/spacing.dart';
-import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/models/hero_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

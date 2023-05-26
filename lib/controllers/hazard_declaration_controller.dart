@@ -1,7 +1,7 @@
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:e_rose/models/address.dart';
 import 'package:e_rose/models/hazard_model.dart';
-import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/models/hero_model.dart';
 import 'package:e_rose/models/repositories/accident_type_repository.dart';
 import 'package:e_rose/models/repositories/hazard_repository.dart';
 import 'package:e_rose/models/repositories/hero_repository.dart';

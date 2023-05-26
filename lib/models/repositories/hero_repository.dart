@@ -1,4 +1,4 @@
-import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/models/hero_model.dart';
 import 'package:e_rose/services/api/dto/heroes_response.dart';
 import 'package:e_rose/services/sources/hero_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

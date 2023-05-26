@@ -1,5 +1,5 @@
 import 'package:e_rose/controllers/hazard_declaration_controller.dart';
-import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/models/hero_model.dart';
 import 'package:e_rose/presentation/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

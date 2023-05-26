@@ -1,8 +1,8 @@
 import 'package:e_rose/models/accident_type_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'hero.freezed.dart';
-part 'hero.g.dart';
+part 'hero_model.freezed.dart';
+part 'hero_model.g.dart';
 
 @freezed
 class HeroModel with _$HeroModel {

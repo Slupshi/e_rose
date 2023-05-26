@@ -1,4 +1,4 @@
-import 'package:e_rose/models/hero.dart';
+import 'package:e_rose/models/hero_model.dart';
 import 'package:e_rose/models/repositories/hero_repository.dart';
 import 'package:e_rose/services/geolocator_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

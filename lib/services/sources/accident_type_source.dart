@@ -10,7 +10,7 @@ AccidentTypeSource accidentTypeSource(AccidentTypeSourceRef ref) =>
     );
 
 class AccidentTypeSource {
-  final String url = "Accidents";
+  final String url = "AccidentTypes";
   final ApiService apiService;
 
   AccidentTypeSource({

@@ -10,7 +10,7 @@ HazardSource hazardSource(HazardSourceRef ref) => HazardSource(
     );
 
 class HazardSource {
-  final String url = "Declarations";
+  final String url = "Hazards";
   final ApiService apiService;
 
   HazardSource({
