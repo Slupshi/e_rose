@@ -1,6 +1,12 @@
+import 'package:e_rose/main.dart';
+import 'package:e_rose/presentation/common/colors.dart';
 import 'package:e_rose/presentation/widgets/navigation/navigation_base.dart';
-import 'package:e_rose/router.dart';
+import 'package:e_rose/presentation/widgets/navigation/navigation_button_widget.dart';
+import 'package:e_rose/router/router.dart';
+import 'package:e_rose/router/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WebNavigation extends StatefulWidget {
   final Widget child;
@@ -16,55 +22,75 @@ class WebNavigation extends StatefulWidget {
 class _WebNavigationState extends State<WebNavigation> with NavigationBase {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 200,
-        leading: InkWell(
-          onTap: () => onItemTapped(context,
-              routes.indexOf(routes.firstWhere((route) => route.path == "/"))),
-          mouseCursor: SystemMouseCursors.click,
-          child: const Center(
-            child: Text(
-              "E-Rose",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 30),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.person,
-                size: 25,
-              ),
-            ),
-          ),
-        ],
-        title: Row(
-          children: [
-            for (var route in routes) ...[
-              InkWell(
-                mouseCursor: SystemMouseCursors.click,
-                onTap: () => onItemTapped(context, routes.indexOf(route)),
-                child: Container(
-                  height: 50,
-                  width: 200,
-                  color: isCurrentRoute(context, route)
-                      ? Colors.red
-                      : Colors.transparent,
-                  child: Center(child: Text(route.name)),
-                ),
-              ),
-            ],
-          ],
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+        color: CustomColors.nightBlueBackground,
+        image: DecorationImage(
+          image: AssetImage("lib/assets/images/galaxy.jpg"),
+          fit: BoxFit.cover,
         ),
       ),
-      body: widget.child,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: CustomColors.black,
+          leadingWidth: 200,
+          leading: InkWell(
+            onTap: () => context.go(Routes.homePage),
+            mouseCursor: SystemMouseCursors.click,
+            child: const Center(
+              child: Text(
+                appTitle,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 30),
+              child: IconButton(
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  final token = prefs.getString("token");
+                  if (token == null || token == "") {
+                    if (context.mounted) {
+                      context.go(Routes.authPage);
+                    }
+                    return;
+                  }
+                  if (context.mounted) {
+                    context.go(Routes.profilePage);
+                  }
+                },
+                icon: const Icon(
+                  Icons.person,
+                  size: 25,
+                ),
+              ),
+            ),
+          ],
+          title: SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (var route in navigationRoutes) ...[
+                  NavigationButtonWidget(
+                    isSelected: isCurrentRoute(context, route),
+                    route: route,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+        body: widget.child,
+      ),
     );
   }
 }
