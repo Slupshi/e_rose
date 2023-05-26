@@ -218,9 +218,9 @@ class HazardDeclarationViewWeb extends ConsumerWidget {
                             if (hazardDeclarationState.selectedPos != null) ...[
                               Marker(
                                 point: hazardDeclarationState.selectedPos!,
-                                builder: (context) =>
-                                    const MapLocationDotWidget(
-                                  tooltip: "",
+                                builder: (context) => MapLocationDotWidget(
+                                  tooltip: hazardDeclarationState.selectedPos!
+                                      .toSexagesimal(),
                                 ),
                               ),
                             ],

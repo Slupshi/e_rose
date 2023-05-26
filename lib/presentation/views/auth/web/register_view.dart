@@ -258,8 +258,9 @@ class RegisterViewWeb extends ConsumerWidget {
                                 if (registerState.selectedPos != null) ...[
                                   Marker(
                                     point: registerState.selectedPos!,
-                                    builder: (_) =>
-                                        const MapLocationDotWidget(tooltip: ""),
+                                    builder: (_) => MapLocationDotWidget(
+                                        tooltip: registerState.selectedPos!
+                                            .toSexagesimal()),
                                   ),
                                 ],
                               ],
